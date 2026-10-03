@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kotoba Master: JLPT Vocabulary</title>
+  <meta name="description" content="Master Japanese vocabulary with a beautiful, modern study companion. The complete JLPT N5 course in chapters, list or flashcard study, custom practice, with English and Burmese meanings.">
+  <meta property="og:title" content="Kotoba Master: JLPT Vocabulary">
+  <meta property="og:description" content="Learn Japanese beautifully: 979 N5 words in 25 chapters, list or card study, custom practice.">
+  <meta property="og:image" content="https://phyomyanmarkyaw.com/kotoba-master/img/shot_01.webp">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <link rel="apple-touch-icon" href="img/icon.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&family=Noto+Sans+Myanmar:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b1530;
+      --navy-2: #111d3d;
+      --navy-3: #18264c;
+      --text: #eef1fb;
+      --soft: #aab3cf;
+      --faint: #6f7a9c;
+      --purple: #6c5ce7;
+      --purple-2: #8f7cff;
+      --line: rgba(255, 255, 255, .09);
+      --n5: #6c5ce7; --n4: #ff5fa2; --n3: #27c3e8; --n2: #ff8a65; --n1: #4fd8a8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; background: var(--navy); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .jp { font-family: 'Noto Sans JP', sans-serif; }
+    .my { font-family: 'Noto Sans Myanmar', sans-serif; }
+
+    .bar { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+    .bar.scrolled { background: rgba(11, 21, 48, .8); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-color: var(--line); }
+    .bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .bar .back { font-size: .9rem; font-weight: 600; text-decoration: none; opacity: .75; display: inline-flex; gap: 8px; align-items: center; }
+    .bar .back:hover { opacity: 1; }
+    .bar .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; text-decoration: none; }
+    .bar .brand img { width: 30px; height: 30px; border-radius: 8px; }
+    .bar .links { display: flex; gap: 22px; font-size: .9rem; font-weight: 600; }
+    .bar .links a { text-decoration: none; opacity: .75; }
+    .bar .links a:hover { opacity: 1; }
+
+    /* Hero: the store art's navy wall of handwritten Japanese. */
+    .hero { position: relative; overflow: hidden; padding: 140px 0 0; background: radial-gradient(90% 70% at 80% 10%, #1f3270 0%, transparent 60%), linear-gradient(180deg, #13214a 0%, var(--navy) 100%); }
+    .hero .wall { position: absolute; inset: -40px; font-family: 'Noto Sans JP', sans-serif; font-weight: 500; font-size: 64px; line-height: 1.35; letter-spacing: .25em; color: #fff; opacity: .045; word-break: break-all; transform: rotate(-8deg); pointer-events: none; user-select: none; }
+    .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: end; }
+    .hero .copy { padding-bottom: 120px; }
+    .app-id { display: flex; align-items: center; gap: 16px; }
+    .app-id img { width: 72px; height: 72px; border-radius: 17px; box-shadow: 0 16px 36px rgba(0,0,0,.4); }
+    .app-id b { display: block; font-size: 1.5rem; font-weight: 800; }
+    .app-id span { font-size: .85rem; color: var(--soft); font-weight: 600; }
+    .hero h1 { font-size: clamp(2.7rem, 5.6vw, 4.6rem); line-height: 1.02; letter-spacing: -.02em; font-weight: 800; margin-top: 36px; }
+    .hero h1 .y { color: #f2e05c; } .hero h1 .o { color: #ff6b4a; } .hero h1 .p { color: #c46bff; }
+    .hero .lead { font-size: 1.15rem; color: var(--soft); max-width: 520px; margin-top: 22px; }
+    .levels { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+    .lv { width: 64px; height: 64px; border-radius: 16px; display: grid; place-items: center; align-content: center; font-weight: 800; font-size: 1.15rem; line-height: 1; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
+    .lv small { display: block; font-size: .55rem; font-weight: 700; opacity: .85; margin-top: 4px; letter-spacing: .04em; }
+    .lv.n5 { background: var(--n5); outline: 2px solid #fff; outline-offset: 3px; }
+    .lv.n4 { background: var(--n4); opacity: .55; } .lv.n3 { background: var(--n3); opacity: .55; } .lv.n2 { background: var(--n2); opacity: .55; } .lv.n1 { background: var(--n1); opacity: .55; color: #0b1530; }
+    .stores { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .store { display: inline-flex; align-items: center; gap: 12px; min-width: 196px; padding: 11px 22px 11px 18px; border-radius: 14px; background: #fff; color: #000; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+    .store:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.35); }
+    .store i { font-size: 1.9rem; width: 28px; text-align: center; }
+    .store small { display: block; font-size: .7rem; font-weight: 600; opacity: .7; line-height: 1.1; }
+    .store b { display: block; font-size: 1.15rem; line-height: 1.15; font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .chip { font-size: .85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
+    .phones { position: relative; height: 620px; }
+    .phone { position: absolute; width: 300px; aspect-ratio: 660 / 1434; padding: 9px; border-radius: 46px; background: linear-gradient(145deg, #3b3d45, #101114 40%, #2a2b30 70%, #0b0c0e); box-shadow: 0 0 0 2px #5a5d66 inset, 0 50px 90px rgba(0,0,0,.55), 0 0 120px rgba(108, 92, 231, .25); }
+    .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; display: block; }
+    .phone.hero-phone { right: 60px; bottom: -150px; transform: rotate(-9deg); }
+
+    .facts { background: var(--navy-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .facts .wrap { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .fact { padding: 30px 10px; text-align: center; border-left: 1px solid var(--line); }
+    .fact:first-child { border-left: 0; }
+    .fact b { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -.02em; }
+    .fact span { font-size: .85rem; color: var(--soft); font-weight: 600; }
+
+    section { padding: 110px 0; position: relative; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: .78rem; font-weight: 800; letter-spacing: .22em; color: var(--purple-2); }
+    .eyebrow::before { content: ''; width: 34px; height: 3px; border-radius: 3px; background: var(--purple-2); }
+    h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); line-height: 1.1; letter-spacing: -.02em; font-weight: 800; margin-top: 14px; }
+    h2 em { font-style: normal; color: var(--purple-2); }
+    .intro { color: var(--soft); font-size: 1.08rem; max-width: 640px; margin-top: 16px; }
+    .center { text-align: center; }
+    .center .intro { margin-left: auto; margin-right: auto; }
+
+    /* The store screenshots read as one panorama, so no gaps between them. */
+    .pano { display: flex; overflow-x: auto; scroll-snap-type: x proximity; margin-top: 50px; padding: 0 max(24px, calc((100vw - 1180px) / 2 + 24px)) 26px; scrollbar-width: none; }
+    .pano::-webkit-scrollbar { display: none; }
+    .pano img { flex: 0 0 auto; width: 280px; aspect-ratio: 600 / 1304; scroll-snap-align: start; display: block; background: var(--navy-3); }
+    .pano img:first-child { border-radius: 26px 0 0 26px; }
+    .pano img:last-child { border-radius: 0 26px 26px 0; }
+    .pano-nav { display: flex; justify-content: center; gap: 12px; }
+    .pano-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--navy-3); color: var(--text); cursor: pointer; transition: transform .2s, background .2s; }
+    .pano-nav button:hover { transform: translateY(-2px); background: var(--purple); }
+
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+    .feature { background: var(--navy-2); border: 1px solid var(--line); border-radius: 24px; padding: 30px 28px; transition: transform .25s, border-color .25s; }
+    .feature:hover { transform: translateY(-4px); border-color: rgba(143, 124, 255, .45); }
+    .feature .icon { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; font-size: 1.35rem; color: #fff; }
+    .feature h3 { font-size: 1.2rem; font-weight: 800; margin-top: 20px; }
+    .feature p { color: var(--soft); margin-top: 8px; font-size: .98rem; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .band { background: linear-gradient(180deg, var(--navy-2), var(--navy)); border-top: 1px solid var(--line); }
+    .word { margin-top: 34px; max-width: 460px; background: var(--navy-3); border: 1px solid var(--line); border-radius: 22px; padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .word .ja { font-size: 1.6rem; font-weight: 700; }
+    .word .ro { font-size: .9rem; color: var(--soft); }
+    .word .mean { text-align: right; }
+    .word .mean b { display: block; font-size: 1.1rem; }
+    .word .mean span { color: var(--soft); }
+    .ipad { max-width: 520px; margin: 0 auto; padding: 12px; border-radius: 34px; background: linear-gradient(145deg, #3b3d45, #101114 40%, #2a2b30 70%, #0b0c0e); box-shadow: 0 0 0 2px #5a5d66 inset, 0 50px 90px rgba(0,0,0,.5); }
+    .ipad img { width: 100%; display: block; border-radius: 24px; }
+
+    .tech { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 50px; }
+    .tech-card { background: var(--navy-2); border: 1px solid var(--line); border-radius: 22px; padding: 26px; }
+    .tech-card h3 { font-size: 1.08rem; font-weight: 800; display: flex; gap: 12px; align-items: center; }
+    .tech-card h3 i { color: var(--purple-2); }
+    .tech-card p { color: var(--soft); margin-top: 8px; font-size: .96rem; }
+    .stack { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
+    .stack span { font-size: .85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: rgba(108, 92, 231, .14); border: 1px solid rgba(143, 124, 255, .3); color: #d9d3ff; }
+
+    .road { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 50px; }
+    .step { border-radius: 22px; padding: 26px 20px; background: var(--navy-2); border: 1px solid var(--line); text-align: center; }
+    .step b { display: block; font-size: 1.8rem; font-weight: 800; }
+    .step span { font-size: .85rem; color: var(--soft); font-weight: 600; }
+    .step.now { background: var(--purple); border-color: var(--purple); }
+    .step.now span { color: #fff; }
+
+    .faq { max-width: 780px; margin: 46px auto 0; }
+    details { background: var(--navy-2); border: 1px solid var(--line); border-radius: 18px; padding: 20px 24px; margin-bottom: 12px; }
+    summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; color: var(--purple-2); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { color: var(--soft); margin-top: 12px; }
+
+    .sibling { display: flex; align-items: center; gap: 20px; max-width: 640px; margin: 0 auto; padding: 22px 26px; border-radius: 24px; text-decoration: none; background: linear-gradient(135deg, #1c1411, #2a1a14); border: 1px solid rgba(216, 67, 44, .35); transition: transform .25s; }
+    .sibling:hover { transform: translateY(-3px); }
+    .sibling img { width: 64px; height: 64px; border-radius: 15px; }
+    .sibling small { color: #ec5a3f; font-weight: 800; letter-spacing: .14em; font-size: .72rem; }
+    .sibling b { display: block; font-size: 1.25rem; }
+    .sibling span { color: #c9bdb2; font-size: .95rem; }
+    .sibling i { margin-left: auto; color: #ec5a3f; }
+
+    .cta { text-align: center; }
+    .cta .stores { justify-content: center; }
+    footer { border-top: 1px solid var(--line); color: var(--soft); padding: 46px 0; font-size: .9rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+    footer nav { display: flex; gap: 22px; flex-wrap: wrap; }
+    footer a { text-decoration: none; color: var(--text); font-weight: 600; opacity: .85; }
+    footer a:hover { opacity: 1; }
+    footer .note { width: 100%; font-size: .8rem; color: var(--faint); }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .hero .copy { padding-bottom: 10px; text-align: center; }
+      .app-id, .levels, .stores, .chips { justify-content: center; }
+      .app-id { text-align: left; }
+      .hero .lead { margin-left: auto; margin-right: auto; }
+      .phones { height: 430px; }
+      .phone.hero-phone { right: auto; left: calc(50% - 130px); width: 260px; bottom: -190px; transform: rotate(-6deg); }
+      .facts .wrap { grid-template-columns: repeat(3, 1fr); }
+      .fact:nth-child(4) { border-left: 0; }
+      .features { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+      .split .intro, .word { margin-left: auto; margin-right: auto; }
+      .road { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .bar .links { display: none; }
+      .bar .back span { display: none; }
+      section { padding: 80px 0; }
+      .hero .wall { font-size: 44px; }
+      .lv { width: 54px; height: 54px; font-size: 1rem; }
+      .facts .wrap { grid-template-columns: 1fr 1fr; }
+      .fact { border-left: 0; padding: 22px 6px; }
+      .fact:last-child { grid-column: span 2; }
+      .features, .tech { grid-template-columns: 1fr; }
+      .pano img { width: 230px; }
+      .road { grid-template-columns: 1fr 1fr; }
+      .step:last-child { grid-column: span 2; }
+      .phone.hero-phone { left: calc(50% - 110px); width: 220px; }
+      .phones { height: 360px; }
+      .store { min-width: 0; flex: 1 1 180px; }
+      .word { flex-direction: column; text-align: center; }
+      .word .mean { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <header class="bar" id="bar">
+    <div class="wrap">
+      <a class="back" href="/"><i class="fas fa-arrow-left"></i> <span>Phyo Myanmar Kyaw</span></a>
+      <a class="brand" href="#top"><img src="img/icon.png" alt="">Kotoba Master</a>
+      <nav class="links"><a href="#features">Features</a><a href="#engineering">Engineering</a><a href="#faq">FAQ</a></nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wall" aria-hidden="true">わたしがっこうせんせいともだちでんしゃしんぶんほんやくだものやさいてがみえいがおんがくやまかわそらあめゆきはなきいぬねことりさかなみずおちゃごはんあさひるよるあしたきのうきょうわたしがっこうせんせいともだちでんしゃしんぶんほんやくだものやさいてがみえいがおんがくやまかわそらあめゆきはなきいぬねことりさかなみずおちゃごはんあさひるよるあしたきのうきょう</div>
+      <div class="wrap">
+        <div class="copy">
+          <div class="app-id"><img src="img/icon.png" alt="Kotoba Master icon"><div><b>Kotoba Master</b><span>JLPT vocabulary · iPhone &amp; iPad</span></div></div>
+          <h1><span class="y">Learn</span><br><span class="o">Japanese</span><br><span class="p">beautifully</span></h1>
+          <p class="lead">A clear, chapter-by-chapter path through JLPT vocabulary, starting with the complete N5 course. Study in a list or on flashcards, then build the perfect practice session.</p>
+          <div class="levels" aria-label="JLPT levels">
+            <div class="lv n5">N5<small>NOW</small></div><div class="lv n4">N4<small>SOON</small></div><div class="lv n3">N3<small>SOON</small></div><div class="lv n2">N2<small>SOON</small></div><div class="lv n1">N1<small>SOON</small></div>
+          </div>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/us/app/kotoba-master/id6748649009" target="_blank" rel="noopener"><i class="fab fa-apple"></i><span><small>Download on the</small><b>App Store</b></span></a>
+          </div>
+          <div class="chips"><span class="chip">Free</span><span class="chip">English</span><span class="chip my">မြန်မာ</span><span class="chip">Dark mode</span></div>
+        </div>
+        <div class="phones" aria-hidden="true"><div class="phone hero-phone"><img src="img/screen_home.webp" alt=""></div></div>
+      </div>
+    </section>
+
+    <div class="facts">
+      <div class="wrap">
+        <div class="fact"><b>979</b><span>N5 words</span></div>
+        <div class="fact"><b>25</b><span>chapters</span></div>
+        <div class="fact"><b>2</b><span>study modes</span></div>
+        <div class="fact"><b>2</b><span>meanings: EN &amp; MY</span></div>
+        <div class="fact"><b>5</b><span>JLPT levels planned</span></div>
+      </div>
+    </div>
+
+    <section id="features">
+      <div class="wrap center reveal">
+        <span class="eyebrow">INSIDE THE APP</span>
+        <h2>Build your foundation,<br><em>one chapter</em> at a time</h2>
+        <p class="intro">Every N5 word in themed chapters, with kana, kanji, romaji and its meaning in English and Burmese.</p>
+      </div>
+      <div class="pano reveal" id="pano">
+        <img src="img/shot_01.webp" alt="Learn Japanese beautifully" loading="lazy">
+        <img src="img/shot_02.webp" alt="Progress through structured lessons" loading="lazy">
+        <img src="img/shot_03.webp" alt="Build your foundation one chapter at a time" loading="lazy">
+        <img src="img/shot_04.webp" alt="Study your way: list or cards" loading="lazy">
+        <img src="img/shot_05.webp" alt="Create the perfect practice session" loading="lazy">
+        <img src="img/shot_06.webp" alt="Build your personal vocabulary" loading="lazy">
+      </div>
+      <div class="pano-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class="fas fa-arrow-left"></i></button><button type="button" data-dir="1" aria-label="Next"><i class="fas fa-arrow-right"></i></button></div>
+
+      <div class="wrap">
+        <div class="features">
+          <div class="feature reveal"><div class="icon" style="background:var(--n5)"><i class="fas fa-layer-group"></i></div><h3>Structured course</h3><p>The complete N5 vocabulary in 25 themed chapters, with progress for each one.</p></div>
+          <div class="feature reveal"><div class="icon" style="background:var(--n4)"><i class="fas fa-clone"></i></div><h3>List or cards</h3><p>Scan a clean list for quick reference, or switch to gesture-driven flashcards to focus.</p></div>
+          <div class="feature reveal"><div class="icon" style="background:var(--n3)"><i class="fas fa-sliders"></i></div><h3>Custom practice</h3><p>Pick chapters, shuffle, filter to learned or favorite words, and flip the direction to test recall.</p></div>
+          <div class="feature reveal"><div class="icon" style="background:var(--n2)"><i class="fas fa-heart"></i></div><h3>My Words</h3><p>Favorite words and mark what you've learned, then review your own lists any time.</p></div>
+          <div class="feature reveal"><div class="icon" style="background:var(--n1)"><i class="fas fa-language"></i></div><h3>English and Burmese</h3><p>Every word with its kana, kanji and romaji, and its meaning in both English and Burmese.</p></div>
+          <div class="feature reveal"><div class="icon" style="background:#3b4a7a"><i class="fas fa-moon"></i></div><h3>Beautiful and focused</h3><p>A calm interface with a stunning dark mode and delightful animations.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap split">
+        <div class="reveal">
+          <span class="eyebrow">MADE FOR MYANMAR LEARNERS</span>
+          <h2>Every word in English<br>and <span class="my" style="color:var(--purple-2)">မြန်မာ</span></h2>
+          <p class="intro">Myanmar learners usually study Japanese through English. Kotoba Master shows both meanings side by side, so nothing gets lost in translation.</p>
+          <div class="word"><div><div class="ro jp">しんぶん</div><div class="ja jp">新聞</div><div class="ro">shinbun</div></div><div class="mean"><b>newspaper</b><span class="my">သတင်းစာ</span></div></div>
+        </div>
+        <div class="reveal"><div class="ipad"><img src="img/ipad_01.webp" alt="Kotoba Master on iPad" loading="lazy"></div></div>
+      </div>
+    </section>
+
+    <section id="engineering">
+      <div class="wrap center reveal">
+        <span class="eyebrow">UNDER THE HOOD</span>
+        <h2>Built to scale to <em>10,000+ words</em></h2>
+        <p class="intro">Native SwiftUI with an architecture designed for every JLPT level, not just the first.</p>
+      </div>
+      <div class="wrap">
+        <div class="tech">
+          <div class="tech-card reveal"><h3><i class="fas fa-sitemap"></i> MVVM + Services</h3><p>Declarative SwiftUI views, Combine-driven view models, and a service layer of use cases and repositories that keeps business logic out of the UI.</p></div>
+          <div class="tech-card reveal"><h3><i class="fas fa-layer-group"></i> A recycling card pager</h3><p>The flashcard deck reuses a pool of three views, so memory stays flat whether a deck has twenty cards or thousands.</p></div>
+          <div class="tech-card reveal"><h3><i class="fas fa-database"></i> Level-scoped data</h3><p>Vocabulary ships as one file per JLPT level for fast, low-memory loading, with an in-memory index for features that span levels.</p></div>
+          <div class="tech-card reveal"><h3><i class="fas fa-shield-halved"></i> IDs as a contract</h3><p>Stable, self-describing word IDs. A validator in CI fails the build if a released ID is removed or reused, and renames migrate user progress on launch.</p></div>
+        </div>
+        <div class="stack reveal"><span>Swift</span><span>SwiftUI</span><span>Combine</span><span>NavigationStack</span><span>Firebase Analytics</span><span>Crashlytics</span><span>Google AdMob</span><span>Fastlane</span></div>
+      </div>
+    </section>
+
+    <section style="padding-top: 20px">
+      <div class="wrap center reveal">
+        <span class="eyebrow">ROADMAP</span>
+        <h2>N5 today, <em>N1</em> tomorrow</h2>
+        <p class="intro">The complete N5 course is available now. The data model is ready for every level after it.</p>
+        <div class="road">
+          <div class="step now"><b>N5</b><span>Available now</span></div>
+          <div class="step"><b>N4</b><span>Next</span></div>
+          <div class="step"><b>N3</b><span>Coming</span></div>
+          <div class="step"><b>N2</b><span>Coming</span></div>
+          <div class="step"><b>N1</b><span>Coming</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" style="padding-top: 20px">
+      <div class="wrap center reveal"><span class="eyebrow">FAQ</span><h2>Questions</h2></div>
+      <div class="wrap faq">
+        <details class="reveal"><summary>Is Kotoba Master free?</summary><p>Yes, it's free to download and use, supported by ads.</p></details>
+        <details class="reveal"><summary>Do I need an account?</summary><p>No. There's nothing to sign up for; your favorites and learned words stay on your device.</p></details>
+        <details class="reveal"><summary>Does it work offline?</summary><p>Yes. All the vocabulary is inside the app, so you can study without a connection.</p></details>
+        <details class="reveal"><summary>Which levels are included?</summary><p>The complete JLPT N5 course today, in 25 chapters. N4 and the higher levels are on the way.</p></details>
+        <details class="reveal"><summary>Is it on Android?</summary><p>Kotoba Master is available for iPhone and iPad.</p></details>
+      </div>
+    </section>
+
+    <section style="padding-top: 0">
+      <div class="wrap reveal">
+        <a class="sibling" href="/kanjiyama/">
+          <img src="/kanjiyama/img/icon.png" alt="Kanjiyama icon">
+          <div><small>ALSO BY PHYO MYANMAR KYAW</small><b>Kanjiyama</b><span>The kanji companion: stroke order, writing practice and JLPT quizzes.</span></div>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </section>
+
+    <section class="cta" style="padding-top: 10px">
+      <div class="wrap reveal">
+        <img src="img/icon.png" alt="Kotoba Master app icon" width="96" height="96" style="border-radius: 22px; box-shadow: 0 20px 40px rgba(0,0,0,.4)">
+        <h2>Start learning today</h2>
+        <div class="stores"><a class="store" href="https://apps.apple.com/us/app/kotoba-master/id6748649009" target="_blank" rel="noopener"><i class="fab fa-apple"></i><span><small>Download on the</small><b>App Store</b></span></a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Kotoba Master · © 2025 Phyo Myanmar Kyaw</span>
+      <nav><a href="mailto:kglay.kophyo@gmail.com">Support</a><a href="/">Developer</a></nav>
+      <span class="note">Kotoba Master is an independent app, not affiliated with the JLPT organisers (The Japan Foundation, JEES).</span>
+    </div>
+  </footer>
+
+  <script>
+    const bar = document.getElementById('bar');
+    const onScroll = () => bar.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const pano = document.getElementById('pano');
+    document.querySelectorAll('.pano-nav button').forEach((b) =>
+      b.addEventListener('click', () => pano.scrollBy({ left: Number(b.dataset.dir) * 560, behavior: 'smooth' })));
+
+    // Sections rise in as they scroll into view (?static shows everything, for screenshots).
+    const reveals = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || location.search.includes('static')) {
+      reveals.forEach((el) => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { threshold: .12 });
+      reveals.forEach((el) => io.observe(el));
+    }
+  </script>
+</body>
+</html>

@@ -148,6 +148,14 @@
     details[open] summary::after { transform: rotate(45deg); }
     details p { color: var(--soft); margin-top: 12px; }
 
+    .sibling { display: flex; align-items: center; gap: 20px; max-width: 640px; margin: 0 auto; padding: 22px 26px; border-radius: 24px; text-decoration: none; background: linear-gradient(135deg, #111d3d, #1f3270); color: #eef1fb; transition: transform .25s; }
+    .sibling:hover { transform: translateY(-3px); }
+    .sibling img { width: 64px; height: 64px; border-radius: 15px; }
+    .sibling small { color: #a99bff; font-weight: 800; letter-spacing: .14em; font-size: .72rem; }
+    .sibling b { display: block; font-size: 1.25rem; }
+    .sibling span { color: #aab3cf; font-size: .95rem; }
+    .sibling i { margin-left: auto; color: #a99bff; }
+
     /* CTA + footer */
     .cta { text-align: center; }
     .cta .stores { justify-content: center; }
@@ -326,6 +334,16 @@
         <details class="reveal"><summary>Which JLPT levels are included?</summary><p>All 110 N5 kanji today, in 11 short lessons. N4 is next, then N3, N2 and N1.</p></details>
         <details class="reveal"><summary>Is it available on Android?</summary><p>Kanjiyama is coming to Google Play soon.</p></details>
         <details class="reveal"><summary>How is my data handled?</summary><p>Your study data stays on your phone. Ads and anonymous usage statistics are explained in the <a href="privacy">privacy policy</a>.</p></details>
+      </div>
+    </section>
+
+    <section style="padding-top: 0; padding-bottom: 40px">
+      <div class="wrap reveal">
+        <a class="sibling" href="/kotoba-master/">
+          <img src="/kotoba-master/img/icon.png" alt="Kotoba Master icon">
+          <div><small>ALSO BY PHYO MYANMAR KYAW</small><b>Kotoba Master</b><span>The vocabulary companion: 979 N5 words in English and Burmese.</span></div>
+          <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
     </section>
 
