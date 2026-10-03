@@ -156,6 +156,42 @@
         .mobile-menu.active { display: block; }
         .mobile-menu a { display: block; color: var(--light-text); text-decoration: none; padding: 15px 0; border-bottom: 1px solid var(--border-color); font-weight: 500; }
         
+
+        /* --- Featured apps slider --- */
+        .slider { position: relative; }
+        .slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; border-radius: 28px; }
+        .slides::-webkit-scrollbar { display: none; }
+        .slide { flex: 0 0 100%; scroll-snap-align: center; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 50px; align-items: center; padding: 60px 60px 50px; border-radius: 28px; position: relative; overflow: hidden;
+                 background: radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%), rgba(30, 41, 59, 0.35); border: 1px solid var(--border-color); }
+        .slide .glyph-bg { position: absolute; right: -40px; bottom: -120px; font-size: 420px; line-height: 1; font-weight: 700; color: var(--accent); opacity: .06; pointer-events: none; font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+        .slide .app-mockup { transform: rotateZ(-4deg); width: 280px; height: auto; aspect-ratio: 1320 / 2868; border-width: 10px; }
+        .slide:hover .app-mockup { transform: rotateZ(0) scale(1.03); }
+        .slide .app-mockup img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 30px; display: block; }
+        .slide-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+        .slide-head img { width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+        .slide-head h3 { font-size: 2rem; font-weight: 800; color: #f8fafc; line-height: 1.1; }
+        .slide-kicker { font-size: .85rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); text-transform: uppercase; }
+        .slide .app-description { color: var(--mid-text); margin-bottom: 1.4rem; line-height: 1.7; }
+        .slide .tech-tag { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: #f1e9e4; }
+        .slide-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+        .slide-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 25px; font-weight: 600; text-decoration: none; transition: all .25s ease; }
+        .slide-btn.primary { background: var(--accent); color: #fff; }
+        .slide-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px color-mix(in srgb, var(--accent) 45%, transparent); }
+        .slide-btn.ghost { color: var(--light-text); border: 1px solid rgba(255,255,255,.18); }
+        .slide-btn.ghost:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .slide-btn.soon { color: var(--mid-text); border: 1px dashed rgba(255,255,255,.18); cursor: default; }
+        .slider-controls { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 26px; }
+        .slider-btn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--border-color); background: rgba(30, 41, 59, .5); color: var(--light-text); cursor: pointer; transition: all .25s ease; }
+        .slider-btn:hover { border-color: var(--mid-purple); transform: translateY(-2px); }
+        .dots { display: flex; gap: 8px; }
+        .dots button { width: 9px; height: 9px; border-radius: 99px; border: 0; background: rgba(255,255,255,.25); cursor: pointer; transition: all .3s ease; padding: 0; }
+        .dots button[aria-selected="true"] { width: 28px; background: var(--light-purple); }
+        @media (max-width: 900px) {
+            .slide { grid-template-columns: 1fr; text-align: center; padding: 44px 24px 36px; gap: 30px; }
+            .slide .app-mockup { width: 220px; margin-bottom: 0; }
+            .slide-head, .slide-actions, .slide .app-tech { justify-content: center; }
+            .slide-head { flex-direction: column; gap: 10px; }
+        }
         @media (max-width: 900px) {
             .hero-content-wrapper { grid-template-columns: 1fr; text-align: center; }
             .hero-text { order: 2; }
@@ -231,23 +267,18 @@
 
     <section id="apps" class="section">
         <div class="container">
-            <h2 class="section-title anim-slide-up">Featured iOS Apps</h2>
-            <div class="hero-app-card anim-slide-up">
-                <div class="app-mockup">
-                    <div class="app-mockup-screen" style="background-image: url('https://raw.githubusercontent.com/PhyoMyanmarKyaw/phyomyanmarkyaw.github.io/refs/heads/main/assets/kotoba-master-homescreen.png');"></div>
-                </div>
-                <div class="app-info">
-                    <h3>Kotoba Master</h3>
-                    <p class="app-description">A beautiful and comprehensive Japanese vocabulary learning app for JLPT students. Built entirely with modern SwiftUI, it features a clean, feature-rich interface, customizable practice sessions, and a robust data architecture designed for future expansion.</p>
-                    <!-- <div class="app-metrics">
-                        <div class="metric"><div class="metric-value">4.8★</div><div class="metric-label">App Rating</div></div>
-                        <div class="metric"><div class="metric-value">50K+</div><div class="metric-label">Downloads</div></div>
-                    </div> -->
-                    <div class="app-tech"><span class="tech-tag">SwiftUI</span><span class="tech-tag">Clean Architecture</span><span class="tech-tag">GRDB</span><span class="tech-tag">Firebase Analytics</span><span class="tech-tag">Google AdMob</span></div>
-                    <a href="https://apps.apple.com/us/app/kotoba-master/id6748649009" class="app-store-link" target="_blank"><i class="fab fa-apple"></i> View on App Store</a>
+            <h2 class="section-title anim-slide-up">Featured Apps</h2>
+            <p class="section-subtitle anim-slide-up">Apps I designed, built and shipped, from the first sketch to the store.</p>
+            <!-- Slides come from FEATURED_APPS in the script at the bottom: add an app there. -->
+            <div class="slider anim-slide-up" aria-roledescription="carousel" aria-label="Featured apps">
+                <div class="slides" id="slides"></div>
+                <div class="slider-controls">
+                    <button class="slider-btn" data-dir="-1" aria-label="Previous app"><i class="fas fa-arrow-left"></i></button>
+                    <div class="dots" id="dots" role="tablist"></div>
+                    <button class="slider-btn" data-dir="1" aria-label="Next app"><i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
-            
+
             <h2 class="section-title anim-slide-up" style="margin-top: 100px; margin-bottom: 2rem;">More Projects</h2>
             <div class="other-apps-grid">
                 <div class="other-app-card anim-slide-up">
@@ -307,6 +338,80 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            // Featured apps, newest first. Store links: a URL, '' for "Coming soon", or null when the app isn't on that store.
+            const FEATURED_APPS = [
+                {
+                    name: 'Kanjiyama',
+                    kicker: 'JLPT kanji · iPhone, iPad, Android',
+                    glyph: '山',
+                    accent: '#e0482f',
+                    icon: 'assets/apps/kanjiyama-icon.png',
+                    screen: 'assets/apps/kanjiyama-home.webp',
+                    description: 'A kanji app built to climb the JLPT from N5 to N1: animated stroke order, handwriting practice with per-stroke feedback, 110 hand-drawn memory pictures, JLPT-style quizzes and FSRS spaced repetition. Fully bilingual in English and Burmese, with iPad layouts.',
+                    tags: ['Flutter', 'Riverpod', 'Firebase', 'AdMob', 'StoreKit IAP', 'FSRS'],
+                    page: 'kanjiyama/',
+                    appStore: '',
+                    playStore: '',
+                },
+                {
+                    name: 'Kotoba Master',
+                    kicker: 'JLPT vocabulary · iPhone',
+                    glyph: '言',
+                    accent: '#7c6cf2',
+                    icon: 'assets/apps/kotoba-master-icon.png',
+                    screen: 'assets/kotoba-master-homescreen.png',
+                    description: 'A beautiful and comprehensive Japanese vocabulary learning app for JLPT students. Built entirely with modern SwiftUI, it features a clean, feature-rich interface, customizable practice sessions, and a robust data architecture designed for future expansion.',
+                    tags: ['SwiftUI', 'Clean Architecture', 'GRDB', 'Firebase Analytics', 'Google AdMob'],
+                    page: '',
+                    appStore: 'https://apps.apple.com/us/app/kotoba-master/id6748649009',
+                    playStore: null,
+                },
+            ];
+
+            const slides = document.getElementById('slides');
+            const dots = document.getElementById('dots');
+            // A store link is the main button when the app has no page of its own.
+            const storeButton = (url, icon, label, primary) => url
+                ? `<a class="slide-btn ${primary ? 'primary' : 'ghost'}" href="${url}" target="_blank" rel="noopener"><i class="fab ${icon}"></i> ${label}</a>` : '';
+            const storeButtons = (app) => {
+                const soon = [app.appStore === '' && 'fa-apple', app.playStore === '' && 'fa-google-play'].filter(Boolean);
+                return storeButton(app.appStore, 'fa-apple', 'App Store', !app.page)
+                    + storeButton(app.playStore, 'fa-google-play', 'Google Play', !app.page && !app.appStore)
+                    + (soon.length ? `<span class="slide-btn soon">${soon.map((i) => `<i class="fab ${i}"></i>`).join('')} Coming soon</span>` : '');
+            };
+            FEATURED_APPS.forEach((app, i) => {
+                const slide = document.createElement('article');
+                slide.className = 'slide';
+                slide.style.setProperty('--accent', app.accent);
+                slide.setAttribute('aria-label', `${i + 1} of ${FEATURED_APPS.length}: ${app.name}`);
+                slide.innerHTML = `
+                    <div class="glyph-bg" aria-hidden="true">${app.glyph}</div>
+                    <div class="app-mockup"><img src="${app.screen}" alt="${app.name} home screen" loading="lazy"></div>
+                    <div class="app-info">
+                        <div class="slide-head"><img src="${app.icon}" alt="${app.name} icon"><div><div class="slide-kicker">${app.kicker}</div><h3>${app.name}</h3></div></div>
+                        <p class="app-description">${app.description}</p>
+                        <div class="app-tech">${app.tags.map((t) => `<span class="tech-tag">${t}</span>`).join('')}</div>
+                        <div class="slide-actions">
+                            ${app.page ? `<a class="slide-btn primary" href="${app.page}">Explore ${app.name} <i class="fas fa-arrow-right"></i></a>` : ''}
+                            ${storeButtons(app)}
+                        </div>
+                    </div>`;
+                slides.append(slide);
+                const dot = document.createElement('button');
+                dot.setAttribute('role', 'tab');
+                dot.setAttribute('aria-label', app.name);
+                dot.addEventListener('click', () => slides.scrollTo({ left: i * slides.clientWidth }));
+                dots.append(dot);
+            });
+            const current = () => Math.round(slides.scrollLeft / slides.clientWidth);
+            const syncDots = () => [...dots.children].forEach((d, i) => d.setAttribute('aria-selected', i === current()));
+            slides.addEventListener('scroll', syncDots, { passive: true });
+            syncDots();
+            document.querySelectorAll('.slider-btn').forEach((b) => b.addEventListener('click', () => {
+                const n = FEATURED_APPS.length;
+                slides.scrollTo({ left: ((current() + Number(b.dataset.dir) + n) % n) * slides.clientWidth });
+            }));
             const menuBtn = document.querySelector('.mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
             window.toggleMobileMenu = () => {

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanjiyama: Learn JLPT Kanji</title>
+  <meta name="description" content="Climb the JLPT kanji mountain. Stroke order, handwriting practice, memory pictures, JLPT-style quizzes and spaced review, in English or Burmese. Starting with all 110 N5 kanji.">
+  <meta property="og:title" content="Kanjiyama: Learn JLPT Kanji">
+  <meta property="og:description" content="Stroke order, writing practice, memory pictures and JLPT-style quizzes, in English or Burmese.">
+  <meta property="og:image" content="https://phyomyanmarkyaw.com/kanjiyama/img/shot_01_hero.webp">
+  <meta name="theme-color" content="#15110e">
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <link rel="apple-touch-icon" href="img/icon.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Noto+Sans+Myanmar:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sumi: #15110e;
+      --sumi-2: #201a16;
+      --paper: #f6f1e8;
+      --paper-2: #efe7da;
+      --ink: #1c1a18;
+      --soft: #6f675d;
+      --faint: #a39a8e;
+      --vermilion: #d8432c;
+      --vermilion-2: #ec5a3f;
+      --line: rgba(28, 26, 24, .1);
+      --cream: #f4ede2;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; background: var(--paper); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .kanji { font-family: 'Klee One', serif; font-weight: 600; }
+    .my { font-family: 'Noto Sans Myanmar', sans-serif; }
+
+    /* Top bar */
+    .bar { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+    .bar.scrolled { background: rgba(21, 17, 14, .78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-color: rgba(255,255,255,.08); }
+    .bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; color: var(--cream); }
+    .bar .back { font-size: .9rem; font-weight: 600; text-decoration: none; opacity: .75; display: inline-flex; gap: 8px; align-items: center; }
+    .bar .back:hover { opacity: 1; }
+    .bar .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .02em; text-decoration: none; }
+    .bar .brand img { width: 30px; height: 30px; border-radius: 8px; }
+    .bar .links { display: flex; gap: 22px; font-size: .9rem; font-weight: 600; }
+    .bar .links a { text-decoration: none; opacity: .75; }
+    .bar .links a:hover { opacity: 1; }
+
+    /* Hero */
+    .hero { position: relative; background: radial-gradient(120% 80% at 85% 0%, #2c1d17 0%, var(--sumi) 55%, #0f0c0a 100%); color: var(--cream); overflow: hidden; padding: 140px 0 0; }
+    .hero .grain { position: absolute; inset: 0; opacity: .14; mix-blend-mode: screen; pointer-events: none; }
+    .hero .sun { position: absolute; width: 240px; height: 240px; border-radius: 50%; right: 9%; top: 110px; background: radial-gradient(circle at 38% 35%, var(--vermilion-2), #c7351f 70%); box-shadow: 0 0 160px 30px rgba(216, 67, 44, .35); }
+    .hero .mountains { position: absolute; left: -6%; bottom: -40px; width: 70%; aspect-ratio: 1028 / 623; background: var(--cream); opacity: .1; -webkit-mask: url(img/mountains.png) center / contain no-repeat; mask: url(img/mountains.png) center / contain no-repeat; pointer-events: none; }
+    .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: end; }
+    .hero .copy { padding-bottom: 120px; }
+    .mark { display: flex; align-items: center; gap: 14px; }
+    .mark .kanji { font-size: 4.2rem; line-height: 1; }
+    .hanko { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: var(--vermilion); color: #fff; font-family: 'Klee One', serif; font-weight: 600; font-size: 1.9rem; box-shadow: 0 10px 30px rgba(216, 67, 44, .35); }
+    .name { font-size: .85rem; font-weight: 800; letter-spacing: .38em; opacity: .65; margin-top: 10px; }
+    .hero h1 { font-size: clamp(2.6rem, 5.4vw, 4.4rem); line-height: 1.04; letter-spacing: -.025em; font-weight: 800; margin-top: 38px; }
+    .hero h1 em { font-style: normal; color: var(--vermilion-2); }
+    .hero .lead { font-size: 1.15rem; color: rgba(244, 237, 226, .72); max-width: 520px; margin-top: 22px; }
+    .stores { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .store { display: inline-flex; align-items: center; gap: 12px; min-width: 196px; padding: 11px 22px 11px 18px; border-radius: 14px; background: #fff; color: #000; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+    .store:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,.35); }
+    .store i { font-size: 1.9rem; width: 28px; text-align: center; }
+    .store small { display: block; font-size: .7rem; font-weight: 600; opacity: .7; line-height: 1.1; }
+    .store b { display: block; font-size: 1.15rem; line-height: 1.15; font-weight: 700; }
+    .store.soon { background: rgba(255,255,255,.08); color: var(--cream); border: 1px solid rgba(255,255,255,.16); pointer-events: none; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .chip { font-size: .85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
+    .chip.my { font-size: .8rem; }
+    .phones { position: relative; height: 640px; }
+    .phone { position: absolute; width: 290px; aspect-ratio: 1320 / 2868; padding: 9px; border-radius: 46px; background: linear-gradient(145deg, #3b3835, #121110 40%, #2a2826 70%, #0c0b0a); box-shadow: 0 0 0 2px #57524c inset, 0 50px 90px rgba(0,0,0,.55); }
+    .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; display: block; }
+    .phone::after { content: ''; position: absolute; left: 50%; top: 18px; transform: translateX(-50%); width: 82px; height: 24px; border-radius: 99px; background: #000; }
+    .phone.a { right: 170px; bottom: -150px; transform: rotate(-7deg); z-index: 2; }
+    .phone.b { right: -10px; bottom: -60px; transform: rotate(6deg); }
+
+    /* Facts strip */
+    .facts { background: var(--sumi-2); color: var(--cream); border-top: 1px solid rgba(255,255,255,.06); }
+    .facts .wrap { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .fact { padding: 30px 10px; text-align: center; border-left: 1px solid rgba(255,255,255,.06); }
+    .fact:first-child { border-left: 0; }
+    .fact b { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -.02em; }
+    .fact span { font-size: .85rem; opacity: .6; font-weight: 600; }
+
+    /* Sections */
+    section { padding: 110px 0; position: relative; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: .78rem; font-weight: 800; letter-spacing: .22em; color: var(--vermilion); }
+    .eyebrow::before { content: ''; width: 34px; height: 3px; border-radius: 3px; background: var(--vermilion); }
+    h2 { font-size: clamp(2rem, 3.6vw, 2.9rem); line-height: 1.1; letter-spacing: -.02em; font-weight: 800; margin-top: 14px; }
+    h2 em { font-style: normal; color: var(--vermilion); }
+    .intro { color: var(--soft); font-size: 1.08rem; max-width: 620px; margin-top: 16px; }
+    .center { text-align: center; }
+    .center .intro { margin-left: auto; margin-right: auto; }
+
+    /* Gallery */
+    .gallery { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 50px max(24px, calc((100vw - 1180px) / 2 + 24px)) 30px; scrollbar-width: none; }
+    .gallery::-webkit-scrollbar { display: none; }
+    .gallery img { flex: 0 0 auto; width: 260px; aspect-ratio: 1320 / 2868; border-radius: 28px; scroll-snap-align: center; box-shadow: 0 24px 50px rgba(40, 28, 20, .18); background: var(--paper-2); }
+    .gallery-nav { display: flex; justify-content: center; gap: 12px; }
+    .gallery-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 1rem; cursor: pointer; transition: transform .2s, background .2s; }
+    .gallery-nav button:hover { transform: translateY(-2px); background: var(--ink); color: #fff; }
+
+    /* Features */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+    .feature { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 30px 28px; transition: transform .25s, box-shadow .25s; }
+    .feature:hover { transform: translateY(-4px); box-shadow: 0 22px 44px rgba(40, 28, 20, .1); }
+    .feature .glyph { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: #fbe9e4; color: var(--vermilion); font-size: 1.9rem; }
+    .feature h3 { font-size: 1.2rem; font-weight: 800; margin-top: 20px; }
+    .feature p { color: var(--soft); margin-top: 8px; font-size: .98rem; }
+
+    /* Split rows */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+    .split .art { display: flex; justify-content: center; }
+    .split .art .phone { position: relative; width: 300px; }
+    .split.dark { color: var(--cream); }
+    .dark-band { background: radial-gradient(110% 70% at 20% 0%, #2a1d18 0%, var(--sumi) 60%); color: var(--cream); }
+    .dark-band .intro { color: rgba(244, 237, 226, .7); }
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 34px; max-width: 520px; }
+    .card-k { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 22px; padding: 22px; }
+    .card-k .kanji { font-size: 3.2rem; line-height: 1.1; }
+    .card-k .mean { font-size: 1.15rem; font-weight: 700; margin-top: 8px; }
+    .card-k .sub { font-size: .85rem; opacity: .6; }
+    .card-k .label { font-size: .7rem; font-weight: 800; letter-spacing: .2em; color: var(--vermilion-2); }
+
+    .ipad { margin: 56px auto 0; max-width: 640px; padding: 14px; border-radius: 38px; background: linear-gradient(145deg, #3b3835, #121110 40%, #2a2826 70%, #0c0b0a); box-shadow: 0 0 0 2px #57524c inset, 0 50px 90px rgba(40, 28, 20, .3); }
+    .ipad img { width: 100%; display: block; border-radius: 26px; }
+
+    /* Roadmap */
+    .road { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 50px; }
+    .step { border-radius: 22px; padding: 26px 20px; background: #fff; border: 1px solid var(--line); text-align: center; }
+    .step b { display: block; font-size: 1.8rem; font-weight: 800; }
+    .step span { font-size: .85rem; color: var(--soft); font-weight: 600; }
+    .step.now { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .step.now span { color: var(--vermilion-2); }
+
+    /* FAQ */
+    .faq { max-width: 780px; margin: 46px auto 0; }
+    details { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 20px 24px; margin-bottom: 12px; }
+    summary { cursor: pointer; font-weight: 700; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; color: var(--vermilion); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { color: var(--soft); margin-top: 12px; }
+
+    /* CTA + footer */
+    .cta { text-align: center; }
+    .cta .stores { justify-content: center; }
+    .cta .store.soon { background: rgba(28,26,24,.05); color: var(--ink); border-color: var(--line); }
+    footer { background: var(--sumi); color: rgba(244, 237, 226, .6); padding: 46px 0; font-size: .9rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+    footer nav { display: flex; gap: 22px; flex-wrap: wrap; }
+    footer a { text-decoration: none; color: rgba(244, 237, 226, .85); font-weight: 600; }
+    footer a:hover { color: #fff; }
+    footer .note { width: 100%; font-size: .8rem; opacity: .7; }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .hero .copy { padding-bottom: 20px; text-align: center; }
+      .mark, .stores, .chips { justify-content: center; }
+      .hero .lead { margin-left: auto; margin-right: auto; }
+      .phones { height: 460px; }
+      .phone.a { right: auto; left: calc(50% - 250px); bottom: -180px; width: 250px; }
+      .phone.b { right: calc(50% - 250px); bottom: -120px; width: 250px; }
+      .hero .sun { width: 160px; height: 160px; top: 90px; right: -40px; }
+      .hero .mountains { width: 120%; left: -30%; }
+      .facts .wrap { grid-template-columns: repeat(3, 1fr); }
+      .fact:nth-child(4) { border-left: 0; }
+      .features { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+      .split .intro, .compare { margin-left: auto; margin-right: auto; }
+      .split .eyebrow { justify-content: center; }
+      .road { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .bar .links { display: none; }
+      .bar .back span { display: none; }
+      section { padding: 80px 0; }
+      .facts .wrap { grid-template-columns: 1fr 1fr; }
+      .fact { border-left: 0; padding: 22px 6px; }
+      .features { grid-template-columns: 1fr; }
+      .gallery img { width: 220px; }
+      .road { grid-template-columns: 1fr 1fr; }
+      .phone.a { left: calc(50% - 178px); width: 185px; bottom: -150px; }
+      .phone.b { right: calc(50% - 178px); width: 185px; bottom: -100px; }
+      .phones { height: 330px; }
+      .fact:last-child { grid-column: span 2; }
+      .step:last-child { grid-column: span 2; }
+      .store { min-width: 0; flex: 1 1 180px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .40  0 0 0 0 .34  0 0 0 .55 0"/></filter>
+  </svg>
+
+  <header class="bar" id="bar">
+    <div class="wrap">
+      <a class="back" href="/"><i class="fas fa-arrow-left"></i> <span>Phyo Myanmar Kyaw</span></a>
+      <a class="brand" href="#top"><img src="img/icon.png" alt="">Kanjiyama</a>
+      <nav class="links"><a href="#features">Features</a><a href="#faq">FAQ</a><a href="privacy">Privacy</a></nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <svg class="grain" width="100%" height="100%" aria-hidden="true"><rect width="100%" height="100%" filter="url(#paper)"/></svg>
+      <div class="sun" aria-hidden="true"></div>
+      <div class="mountains" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="copy">
+          <div class="mark"><span class="kanji">漢字</span><span class="hanko">山</span></div>
+          <div class="name">KANJIYAMA</div>
+          <h1>Climb the<br><em>JLPT kanji</em><br>mountain</h1>
+          <p class="lead">Watch every stroke, write it yourself, remember it with a picture, and review right before you forget. In English or Burmese, starting with all 110 N5 kanji.</p>
+          <div class="stores">
+            <a class="store" data-store="appStore" href="#" target="_blank" rel="noopener"><i class="fab fa-apple"></i><span><small>Download on the</small><b>App Store</b></span></a>
+            <a class="store" data-store="playStore" href="#" target="_blank" rel="noopener"><i class="fab fa-google-play"></i><span><small>Get it on</small><b>Google Play</b></span></a>
+          </div>
+          <div class="chips"><span class="chip">Free</span><span class="chip">iPhone &amp; iPad</span><span class="chip">English</span><span class="chip my">မြန်မာ</span></div>
+        </div>
+        <div class="phones" aria-hidden="true">
+          <div class="phone b"><img src="img/screen_stroke.webp" alt=""></div>
+          <div class="phone a"><img src="img/screen_home.webp" alt=""></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="facts">
+      <div class="wrap">
+        <div class="fact"><b>110</b><span>N5 kanji</span></div>
+        <div class="fact"><b>11</b><span>short lessons</span></div>
+        <div class="fact"><b>110</b><span>ink pictures</span></div>
+        <div class="fact"><b>550+</b><span>example words</span></div>
+        <div class="fact"><b>2</b><span>languages</span></div>
+      </div>
+    </div>
+
+    <section id="features">
+      <div class="wrap center reveal">
+        <span class="eyebrow">INSIDE THE APP</span>
+        <h2>Everything a kanji needs,<br>on <em>one page</em></h2>
+        <p class="intro">Each kanji has its stroke order, a picture to remember it by, its readings and real words, then a quiz and a review schedule to make it stick.</p>
+      </div>
+      <div class="gallery reveal" id="gallery">
+        <img src="img/shot_02_stroke.webp" alt="Watch every stroke, in order" loading="lazy">
+        <img src="img/shot_03_writing.webp" alt="Write it and get graded" loading="lazy">
+        <img src="img/shot_04_picture.webp" alt="A picture for every kanji" loading="lazy">
+        <img src="img/shot_05_readings.webp" alt="Readings and real words" loading="lazy">
+        <img src="img/shot_06_quiz.webp" alt="Quizzes that feel like the JLPT" loading="lazy">
+        <img src="img/shot_07_stats.webp" alt="Review right before you forget" loading="lazy">
+        <img src="img/shot_08_burmese.webp" alt="English or Burmese" loading="lazy">
+      </div>
+      <div class="gallery-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class="fas fa-arrow-left"></i></button><button type="button" data-dir="1" aria-label="Next"><i class="fas fa-arrow-right"></i></button></div>
+
+      <div class="wrap">
+        <div class="features">
+          <div class="feature reveal"><div class="glyph kanji">筆</div><h3>Stroke order</h3><p>An animated stroke order for every kanji, slow it down or step through it stroke by stroke.</p></div>
+          <div class="feature reveal"><div class="glyph kanji">書</div><h3>Write it yourself</h3><p>Trace it, then write it from memory. Every stroke is checked, and you earn a 優, 良 or 可 stamp.</p></div>
+          <div class="feature reveal"><div class="glyph kanji">絵</div><h3>Memory pictures</h3><p>A hand-drawn ink picture for each of the 110 kanji, morphing into the character it became.</p></div>
+          <div class="feature reveal"><div class="glyph kanji">読</div><h3>Readings and words</h3><p>On'yomi and kun'yomi with romaji, and example words grouped by reading, with furigana and audio.</p></div>
+          <div class="feature reveal"><div class="glyph kanji">試</div><h3>JLPT-style quizzes</h3><p>Meaning, 漢字読み and 表記 questions whose wrong answers are the slips the test looks for.</p></div>
+          <div class="feature reveal"><div class="glyph kanji">続</div><h3>Review at the right time</h3><p>Spaced repetition brings each kanji back before you forget it, with a daily streak and stats.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark-band">
+      <div class="wrap split">
+        <div class="reveal">
+          <span class="eyebrow">YOUR LANGUAGE</span>
+          <h2>Learn in English or <span class="my" style="color:var(--vermilion-2)">မြန်မာ</span></h2>
+          <p class="intro">The whole app, kanji meanings included, speaks the language you choose. Made first for Myanmar learners, who usually study kanji through English.</p>
+          <div class="compare">
+            <div class="card-k"><div class="label">ENGLISH</div><div class="kanji">山</div><div class="mean">mountain</div><div class="sub">やま · yama</div></div>
+            <div class="card-k"><div class="label">မြန်မာ</div><div class="kanji">山</div><div class="mean my">တောင်</div><div class="sub">mountain</div></div>
+          </div>
+        </div>
+        <div class="art reveal"><div class="phone"><img src="img/screen_home_my.webp" alt="Kanjiyama in Burmese, dark mode" loading="lazy"></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap center reveal">
+        <span class="eyebrow">IPHONE AND IPAD</span>
+        <h2>Room to <em>breathe</em> on iPad</h2>
+        <p class="intro">A lesson index beside the kanji grid, two-column kanji pages, and a bigger writing canvas.</p>
+      </div>
+      <div class="wrap reveal"><div class="ipad"><img src="img/screen_ipad_home.webp" alt="Kanjiyama on iPad" loading="lazy"></div></div>
+    </section>
+
+    <section style="padding-top: 20px">
+      <div class="wrap center reveal">
+        <span class="eyebrow">THE CLIMB</span>
+        <h2>From N5 at the foot<br>to <em>N1</em> at the summit</h2>
+        <p class="intro">Kanjiyama starts with the 110 N5 kanji. N4 is the next stage, and new levels will keep coming.</p>
+        <div class="road">
+          <div class="step now"><b>N5</b><span>Available now</span></div>
+          <div class="step"><b>N4</b><span>Next</span></div>
+          <div class="step"><b>N3</b><span>Coming</span></div>
+          <div class="step"><b>N2</b><span>Coming</span></div>
+          <div class="step"><b>N1</b><span>Coming</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" style="padding-top: 20px">
+      <div class="wrap center reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions</h2>
+      </div>
+      <div class="wrap faq">
+        <details class="reveal"><summary>Is Kanjiyama free?</summary><p>Yes. The app is free with ads. If you prefer to study without them, a one-time purchase removes the ads for good. It is not a subscription.</p></details>
+        <details class="reveal"><summary>Do I need an account?</summary><p>No. There is nothing to sign up for: your progress, streak and settings stay on your device.</p></details>
+        <details class="reveal"><summary>Does it work offline?</summary><p>Yes, studying works without an internet connection. Ads simply don't show while you're offline.</p></details>
+        <details class="reveal"><summary>Which JLPT levels are included?</summary><p>All 110 N5 kanji today, in 11 short lessons. N4 is next, then N3, N2 and N1.</p></details>
+        <details class="reveal"><summary>Is it available on Android?</summary><p>Kanjiyama is coming to Google Play soon.</p></details>
+        <details class="reveal"><summary>How is my data handled?</summary><p>Your study data stays on your phone. Ads and anonymous usage statistics are explained in the <a href="privacy">privacy policy</a>.</p></details>
+      </div>
+    </section>
+
+    <section class="cta" style="padding-top: 30px">
+      <div class="wrap reveal">
+        <img src="img/icon.png" alt="Kanjiyama app icon" width="96" height="96" style="border-radius: 22px; box-shadow: 0 20px 40px rgba(40,28,20,.2)">
+        <h2>Start your climb today</h2>
+        <div class="stores">
+          <a class="store" data-store="appStore" href="#" target="_blank" rel="noopener"><i class="fab fa-apple"></i><span><small>Download on the</small><b>App Store</b></span></a>
+          <a class="store" data-store="playStore" href="#" target="_blank" rel="noopener"><i class="fab fa-google-play"></i><span><small>Get it on</small><b>Google Play</b></span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Kanjiyama · 漢字山 · © 2026 Phyo Myanmar Kyaw</span>
+      <nav><a href="privacy">Privacy policy</a><a href="mailto:kglay.kophyo@gmail.com">Support</a><a href="/">Developer</a></nav>
+      <span class="note">Kanjiyama is an independent app, not affiliated with the JLPT organisers (The Japan Foundation, JEES) or any textbook publisher. Stroke order data: KanjiVG. Kanji and word data: KANJIDIC2 and JMdict (EDRDG).</span>
+    </div>
+  </footer>
+
+  <script>
+    // Store links: fill these in when the app is live; empty shows "Coming soon".
+    const STORE = {
+      appStore: '',
+      playStore: '',
+    };
+    document.querySelectorAll('[data-store]').forEach((a) => {
+      const url = STORE[a.dataset.store];
+      if (url) { a.href = url; return; }
+      a.classList.add('soon');
+      a.removeAttribute('href');
+      a.querySelector('small').textContent = 'Coming soon to';
+    });
+
+    const bar = document.getElementById('bar');
+    const onScroll = () => bar.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const gallery = document.getElementById('gallery');
+    document.querySelectorAll('.gallery-nav button').forEach((b) =>
+      b.addEventListener('click', () => gallery.scrollBy({ left: Number(b.dataset.dir) * 282, behavior: 'smooth' })));
+
+    // Sections rise in as they scroll into view (?static shows everything, for screenshots).
+    const reveals = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || location.search.includes('static')) {
+      reveals.forEach((el) => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { threshold: .12 });
+      reveals.forEach((el) => io.observe(el));
+    }
+  </script>
+</body>
+</html>
