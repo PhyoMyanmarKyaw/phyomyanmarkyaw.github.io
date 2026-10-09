@@ -7,7 +7,7 @@
   <meta name="description" content="Six traditional Myanmar fortune readings from your birth date and weekday: Mahar Bote, Mood & Mind, Soul Connections and more. Free, no ads, in seven languages, for iPhone, iPad and iPhone Duo.">
   <meta property="og:title" content="Destiny Teller: Myanmar Astrology">
   <meta property="og:description" content="Your destiny, written in the stars: six traditional Myanmar readings, free and in seven languages.">
-  <meta property="og:image" content="https://phyomyanmarkyaw.com/destiny-teller/img/shot_01.webp">
+  <meta property="og:image" content="https://phyomyanmarkyaw.com/destiny-teller/img/og.jpg">
   <meta name="theme-color" content="#070816">
   <link rel="icon" type="image/png" href="img/icon.png">
   <link rel="apple-touch-icon" href="img/icon.png">
@@ -37,9 +37,8 @@
     .my { font-family: 'Noto Sans Myanmar', sans-serif; }
     .serif { font-family: 'Cormorant Garamond', serif; }
 
-    /* A fixed starfield behind everything, as in the app. */
-    #sky { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    #sky i { position: absolute; border-radius: 50%; background: #fff; }
+    /* A twinkling starfield behind everything, with the odd shooting star. */
+    #sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
     .bar { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
     .bar.scrolled { background: rgba(7, 8, 22, .78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-color: var(--line); }
@@ -56,7 +55,8 @@
     .hero { position: relative; overflow: hidden; padding: 140px 0 0;
       background: radial-gradient(70% 60% at 75% 40%, rgba(124, 92, 230, .30), transparent 70%),
                   radial-gradient(50% 40% at 10% 0%, rgba(214, 120, 200, .12), transparent 70%); }
-    .chart { position: absolute; width: 900px; height: 900px; right: -120px; top: -40px; transform: rotate(-8deg); opacity: .07; pointer-events: none; }
+    .chart { position: absolute; width: 900px; height: 900px; right: -120px; top: -40px; transform: rotate(-8deg); opacity: .07; pointer-events: none; animation: drift 60s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: rotate(-2deg) translateY(30px); } }
     .chart i { position: absolute; background: var(--lavender); border-radius: 20px; box-shadow: 0 0 40px var(--lavender-deep); }
     .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: end; }
     .hero .copy { padding-bottom: 120px; }
@@ -78,7 +78,17 @@
     .phones { position: relative; height: 620px; }
     .phone { position: absolute; width: 300px; aspect-ratio: 660 / 1435; padding: 9px; border-radius: 46px; background: linear-gradient(145deg, #3a3550, #121019 40%, #2a2640); box-shadow: 0 0 0 2px rgba(255,255,255,.08) inset, 0 50px 90px rgba(0,0,0,.6), 0 0 140px rgba(143,127,240,.35); }
     .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; display: block; }
-    .phone.hero-phone { right: 60px; bottom: -150px; transform: rotate(-7deg); }
+    .phone.hero-phone { right: 60px; bottom: -150px; transform: rotate(-7deg); animation: float 7s ease-in-out infinite; }
+    @keyframes float { 50% { transform: rotate(-6deg) translateY(-14px); } }
+    /* The same Home in Myanmar and English, crossfading. */
+    .screens { position: relative; width: 100%; height: 100%; }
+    .screens img { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease; }
+    .screens img.on { opacity: 1; }
+    .lang-pill { position: absolute; right: 70px; top: 10px; z-index: 2; display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(13,11,34,.75); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: .82rem; font-weight: 600; }
+    .lang-pill span { padding: 6px 14px; border-radius: 999px; color: var(--soft); transition: background .5s, color .5s; }
+    .lang-pill span.on { background: var(--lavender); color: var(--night); }
+    .halo { position: absolute; right: 30px; bottom: 40px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(143,127,240,.35), transparent 65%); animation: breathe 6s ease-in-out infinite; pointer-events: none; }
+    @keyframes breathe { 50% { transform: scale(1.12); opacity: .7; } }
 
     .facts { background: rgba(13, 11, 34, .85); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
     .facts .wrap { display: grid; grid-template-columns: repeat(5, 1fr); }
@@ -95,26 +105,30 @@
     .center { text-align: center; }
     .center .intro { margin-left: auto; margin-right: auto; }
 
-    /* The store screenshots read as one panorama. */
-    .pano { display: flex; overflow-x: auto; scroll-snap-type: x proximity; margin-top: 50px; padding: 0 max(24px, calc((100vw - 1180px) / 2 + 24px)) 26px; scrollbar-width: none; }
-    .pano::-webkit-scrollbar { display: none; }
-    .pano img { flex: 0 0 auto; width: 280px; aspect-ratio: 600 / 1304; scroll-snap-align: start; display: block; background: var(--night-3); }
-    .pano img:first-child { border-radius: 26px 0 0 26px; }
-    .pano img:last-child { border-radius: 0 26px 26px 0; }
-    .pano-nav { display: flex; justify-content: center; gap: 12px; }
-    .pano-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--night-3); color: var(--text); cursor: pointer; transition: transform .2s, background .2s; }
-    .pano-nav button:hover { transform: translateY(-2px); background: var(--lavender-deep); }
-
-    .readings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
-    .reading { background: rgba(22, 18, 51, .7); border: 1px solid var(--line); border-radius: 24px; padding: 28px; transition: transform .25s, border-color .25s; }
-    .reading:hover { transform: translateY(-4px); border-color: rgba(201, 191, 247, .4); }
-    .reading .mark { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: #1e1e2e; border: 2px solid transparent; background-clip: padding-box; position: relative; }
-    .reading .mark::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: var(--ring); z-index: -1; }
-    .reading .mark img { width: 46px; height: 46px; }
-    .reading h3 { font-size: 1.2rem; font-weight: 700; margin-top: 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-    .reading h3 .my { font-size: .85rem; font-weight: 400; color: var(--lavender); }
-    .reading p { color: var(--soft); margin-top: 8px; font-size: .97rem; }
-    .reading .note { display: inline-block; margin-top: 12px; font-size: .78rem; color: var(--gold); }
+    /* The readings: a list on one side, the app on the other, following the
+       selected reading (and moving on by itself until someone picks one). */
+    .showcase { display: grid; grid-template-columns: minmax(0, 460px) 320px; justify-content: center; gap: 100px; align-items: center; margin-top: 64px; }
+    .stage-phone { position: relative; justify-self: center; width: 300px; aspect-ratio: 600 / 1304; padding: 9px; border-radius: 46px; background: linear-gradient(145deg, #3a3550, #121019 40%, #2a2640); box-shadow: 0 0 0 2px rgba(255,255,255,.08) inset, 0 50px 90px rgba(0,0,0,.6), 0 0 140px rgba(143,127,240,.3); }
+    .stage-phone .screens img { border-radius: 38px; width: 100%; height: 100%; object-fit: cover; object-position: top; transform: scale(1.03); transition: opacity .7s ease, transform 1.2s ease; }
+    .stage-phone .screens img.on { transform: none; }
+    .readings { display: flex; flex-direction: column; gap: 10px; }
+    .reading { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 0 18px; align-items: center; text-align: left; font: inherit; color: inherit; width: 100%; background: transparent; border: 1px solid transparent; border-radius: 20px; padding: 14px 18px; cursor: pointer; overflow: hidden; transition: background .35s, border-color .35s; }
+    .reading:hover { background: rgba(22, 18, 51, .5); }
+    .reading.on { background: rgba(22, 18, 51, .85); border-color: rgba(201, 191, 247, .3); }
+    .reading .mark { grid-row: span 2; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; border: 2px solid transparent; background: linear-gradient(#1e1e2e, #1e1e2e) padding-box, var(--ring) border-box; transition: transform .35s, box-shadow .35s; }
+    .reading.on .mark { box-shadow: 0 0 26px rgba(143, 127, 240, .35); }
+    .reading.on .mark { transform: scale(1.06); }
+    .reading .mark img { width: 40px; height: 40px; }
+    .reading h3 { font-size: 1.08rem; font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+    .reading h3 .my { font-size: .8rem; font-weight: 400; color: var(--lavender); }
+    .reading p { grid-column: 2; color: var(--soft); font-size: .93rem; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .5s ease, opacity .5s ease, margin .5s ease; }
+    .reading.on p { max-height: 120px; opacity: 1; margin-top: 6px; }
+    .reading .note { color: var(--gold); font-size: .78rem; display: block; margin-top: 6px; }
+    /* A thin line fills while a reading is shown, then the next one comes. */
+    .reading .timer { position: absolute; left: 18px; right: 18px; bottom: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--lavender-deep)); transform: scaleX(0); transform-origin: left; opacity: 0; }
+    .reading.on .timer { opacity: .8; animation: fill var(--dwell, 5s) linear forwards; }
+    .showcase.paused .reading .timer { display: none; }
+    @keyframes fill { to { transform: scaleX(1); } }
 
     .split { display: grid; grid-template-columns: 1fr 1.1fr; gap: 70px; align-items: center; }
     .band { background: linear-gradient(180deg, rgba(13,11,34,.9), rgba(7,8,22,.6)); border-top: 1px solid var(--line); }
@@ -172,7 +186,8 @@
       .phone.hero-phone { right: auto; left: calc(50% - 130px); width: 260px; bottom: -190px; transform: rotate(-5deg); }
       .facts .wrap { grid-template-columns: repeat(3, 1fr); }
       .fact:nth-child(4) { border-left: 0; }
-      .readings { grid-template-columns: 1fr 1fr; }
+      .showcase { grid-template-columns: minmax(0, 520px); gap: 40px; }
+      .stage-phone { width: 260px; order: -1; }
       .split { grid-template-columns: 1fr; gap: 50px; text-align: center; }
       .split .intro { margin-left: auto; margin-right: auto; }
       .langs { justify-content: center; }
@@ -185,17 +200,23 @@
       .facts .wrap { grid-template-columns: 1fr 1fr; }
       .fact { border-left: 0; padding: 22px 6px; }
       .fact:last-child { grid-column: span 2; }
-      .readings, .tech { grid-template-columns: 1fr; }
-      .pano img { width: 230px; }
+      .tech { grid-template-columns: 1fr; }
+      .stage-phone { width: 230px; }
+      .halo { right: auto; left: calc(50% - 210px); }
       .phone.hero-phone { left: calc(50% - 110px); width: 220px; }
       .phones { height: 360px; }
       .store { min-width: 0; flex: 1 1 180px; }
     }
-    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+    @media (max-width: 960px) { .lang-pill { right: auto; left: 50%; top: -6px; transform: translateX(-50%); } .halo { right: auto; left: calc(50% - 210px); bottom: 0; } }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; }
+      .chart, .phone.hero-phone, .halo { animation: none; }
+      .reading.on .timer { animation: none; }
+    }
   </style>
 </head>
 <body>
-  <div id="sky" aria-hidden="true"></div>
+  <canvas id="sky" aria-hidden="true"></canvas>
 
   <header class="bar" id="bar">
     <div class="wrap">
@@ -223,7 +244,11 @@
           </div>
           <div class="chips"><span class="chip">Free · No ads</span><span class="chip">7 languages</span><span class="chip">iPhone · iPad · iPhone Duo</span></div>
         </div>
-        <div class="phones" aria-hidden="true"><div class="phone hero-phone"><img src="img/screen_home.webp" alt=""></div></div>
+        <div class="phones" aria-hidden="true">
+          <div class="halo"></div>
+          <div class="phone hero-phone"><div class="screens" id="heroScreens"><img class="on" src="img/screen_home.webp" alt=""><img src="img/screen_home_en.webp" alt=""></div></div>
+          <div class="lang-pill" id="heroPill"><span class="my on">မြန်မာ</span><span>English</span></div>
+        </div>
       </div>
     </section>
 
@@ -243,26 +268,24 @@
         <h2>The fortune-telling of Myanmar,<br>in your <em class="glow">pocket</em></h2>
         <p class="intro">Readings from your birth date, your weekday and the Myanmar calendar, written for the original Kglay Baydin and kept exactly as they were.</p>
       </div>
-      <div class="pano reveal" id="pano">
-        <img src="img/shot_01.webp" alt="Your destiny, written in the stars" loading="lazy">
-        <img src="img/shot_02.webp" alt="Your fortune, in your language" loading="lazy">
-        <img src="img/shot_03.webp" alt="Mahar Bote: your Myanmar birth chart" loading="lazy">
-        <img src="img/shot_04.webp" alt="Mood and Mind: which state of mind rules your heart" loading="lazy">
-        <img src="img/shot_05.webp" alt="Soul Connections: when will you marry" loading="lazy">
-        <img src="img/shot_06.webp" alt="Ideal Girl: meet the girl you'll marry" loading="lazy">
-        <img src="img/shot_07.webp" alt="Numerology: your number, your nature" loading="lazy">
-        <img src="img/shot_08.webp" alt="Is He The One: is his love true" loading="lazy">
-      </div>
-      <div class="pano-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class="fas fa-arrow-left"></i></button><button type="button" data-dir="1" aria-label="Next"><i class="fas fa-arrow-right"></i></button></div>
-
       <div class="wrap">
-        <div class="readings">
-          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#22d3ee,#3b82f6)"><img src="img/mark_mood.png" alt=""></div><h3>Mood &amp; Mind <span class="my">စိတ်နေစိတ်ထား</span></h3><p>Which of the seven states of mind rules your heart: calm, compassion, joy, desire, anger and more.</p></div>
-          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#ec4899,#a855f7)"><img src="img/mark_soul.png" alt=""></div><h3>Soul Connections <span class="my">ဆုံစည်းခြင်း</span></h3><p>When will you marry? Your weekdays of birth and his age reveal the timing of your wedding.</p></div>
-          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#f97316,#facc15)"><img src="img/mark_mahar.png" alt=""></div><h3>Mahar Bote <span class="my">မဟာဘုတ်</span></h3><p>The classic Myanmar birth chart: your weekday and Myanmar year place you in one of seven houses.</p></div>
-          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#5eead4,#22c55e)"><img src="img/mark_ideal.png" alt=""></div><h3>Ideal Girl <span class="my">ဘယ်လိုမိန်းမရမလဲ</span></h3><p>What kind of woman will you marry? Her nature, her looks and your life together.</p></div>
-          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#22c55e,#5eead4)"><img src="img/mark_number.png" alt=""></div><h3>Numerology <span class="my">ဂဏန်းဗေဒင်</span></h3><p>Your birth day becomes a number from 1 to 9, with your character, talents and love life.</p></div>
-          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#ef4444,#f97316)"><img src="img/mark_ishe.png" alt=""></div><h3>Is He The One? <span class="my">ကောင်လေးတကယ်ချစ်ရဲ့လား</span></h3><p>From her birth date and the first letters of his name, typed on a keypad of Burmese letters.</p><span class="note">✦ In Myanmar only: made for Burmese names</span></div>
+        <div class="showcase reveal" id="showcase">
+          <div class="readings" role="tablist" aria-label="Readings">
+            <button class="reading on" role="tab" data-shot="0" style="--ring:linear-gradient(135deg,#22d3ee,#3b82f6)"><span class="mark"><img src="img/mark_mood.png" alt=""></span><h3>Mood &amp; Mind <span class="my">စိတ်နေစိတ်ထား</span></h3><p>Which of the seven states of mind rules your heart: calm, compassion, joy, desire, anger and more.</p><span class="timer"></span></button>
+            <button class="reading" role="tab" data-shot="1" style="--ring:linear-gradient(135deg,#ec4899,#a855f7)"><span class="mark"><img src="img/mark_soul.png" alt=""></span><h3>Soul Connections <span class="my">ဆုံစည်းခြင်း</span></h3><p>When will you marry? Your weekdays of birth and his age reveal the timing of your wedding.</p><span class="timer"></span></button>
+            <button class="reading" role="tab" data-shot="2" style="--ring:linear-gradient(135deg,#f97316,#facc15)"><span class="mark"><img src="img/mark_mahar.png" alt=""></span><h3>Mahar Bote <span class="my">မဟာဘုတ်</span></h3><p>The classic Myanmar birth chart: your weekday and Myanmar year place you in one of seven houses.</p><span class="timer"></span></button>
+            <button class="reading" role="tab" data-shot="3" style="--ring:linear-gradient(135deg,#5eead4,#22c55e)"><span class="mark"><img src="img/mark_ideal.png" alt=""></span><h3>Ideal Girl <span class="my">ဘယ်လိုမိန်းမရမလဲ</span></h3><p>What kind of woman will you marry? Her nature, her looks and your life together.</p><span class="timer"></span></button>
+            <button class="reading" role="tab" data-shot="4" style="--ring:linear-gradient(135deg,#22c55e,#5eead4)"><span class="mark"><img src="img/mark_number.png" alt=""></span><h3>Numerology <span class="my">ဂဏန်းဗေဒင်</span></h3><p>Your birth day becomes a number from 1 to 9, with your character, talents and love life.</p><span class="timer"></span></button>
+            <button class="reading" role="tab" data-shot="5" style="--ring:linear-gradient(135deg,#ef4444,#f97316)"><span class="mark"><img src="img/mark_ishe.png" alt=""></span><h3>Is He The One? <span class="my">ကောင်လေးတကယ်ချစ်ရဲ့လား</span></h3><p>From her birth date and the first letters of his name, typed on a keypad of Burmese letters.<span class="note">✦ In Myanmar only: made for Burmese names</span></p><span class="timer"></span></button>
+          </div>
+          <div class="stage-phone"><div class="screens" id="stageScreens">
+            <img class="on" src="img/app_mood_en.webp" alt="Mood and Mind reading in English">
+            <img src="img/app_soul_my.webp" alt="Soul Connections reading in Myanmar" loading="lazy">
+            <img src="img/app_mahar_en.webp" alt="Mahar Bote birth chart in English" loading="lazy">
+            <img src="img/app_ideal_en.webp" alt="Ideal Girl reading in English" loading="lazy">
+            <img src="img/app_number_en.webp" alt="Numerology reading in English" loading="lazy">
+            <img src="img/app_ishe_my.webp" alt="Is He The One reading in Myanmar" loading="lazy">
+          </div></div>
         </div>
       </div>
     </section>
@@ -351,28 +374,98 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // A fixed, seeded starfield, the same on every load.
-    let seed = 7;
-    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    const sky = document.getElementById('sky');
-    for (let i = 0; i < 160; i++) {
-      const s = document.createElement('i');
-      const size = rand() < 0.08 ? 2.5 + rand() * 2 : 1 + rand() * 1.4;
-      Object.assign(s.style, {
-        left: rand() * 100 + '%', top: rand() * 100 + '%', width: size + 'px', height: size + 'px',
-        opacity: 0.2 + rand() * 0.6, boxShadow: size > 2.5 ? `0 0 ${size * 4}px rgba(201,191,247,.9)` : 'none',
-      });
-      sky.append(s);
-    }
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // The starfield: a seeded sky that twinkles, with a shooting star now and then.
+    (() => {
+      const canvas = document.getElementById('sky');
+      const ctx = canvas.getContext('2d');
+      let seed = 7;
+      const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+      let stars = [], w = 0, h = 0, shooting = null, nextShot = 4000;
+      const resize = () => {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        w = innerWidth; h = innerHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seed = 7;
+        stars = Array.from({ length: Math.round(w * h / 9000) }, () => {
+          const big = rand() < .08;
+          return { x: rand() * w, y: rand() * h, r: big ? 1.3 + rand() : .5 + rand() * .7,
+                   a: .25 + rand() * .6, speed: .4 + rand() * 1.2, phase: rand() * 6.3, big,
+                   tint: rand() < .3 ? '201,191,247' : '255,255,255' };
+        });
+      };
+      const draw = (t) => {
+        ctx.clearRect(0, 0, w, h);
+        for (const s of stars) {
+          const a = still ? s.a : s.a * (.55 + .45 * Math.sin(t / 1000 * s.speed + s.phase));
+          ctx.fillStyle = `rgba(${s.tint},${a})`;
+          if (s.big) { ctx.shadowColor = 'rgba(201,191,247,.9)'; ctx.shadowBlur = 8; }
+          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+        if (!still) {
+          if (!shooting && t > nextShot) {
+            shooting = { x: Math.random() * w * .7 + w * .2, y: Math.random() * h * .35, life: 0 };
+            nextShot = t + 6000 + Math.random() * 7000;
+          }
+          if (shooting) {
+            const s = shooting, len = 120, p = s.life / 900;
+            const x = s.x - p * 420, y = s.y + p * 210;
+            const g = ctx.createLinearGradient(x, y, x + len, y - len / 2);
+            g.addColorStop(0, `rgba(255,255,255,${.9 * (1 - p)})`); g.addColorStop(1, 'rgba(201,191,247,0)');
+            ctx.strokeStyle = g; ctx.lineWidth = 1.4;
+            ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + len, y - len / 2); ctx.stroke();
+            s.life += 16; if (s.life > 900) shooting = null;
+          }
+          requestAnimationFrame(draw);
+        }
+      };
+      resize();
+      addEventListener('resize', () => { resize(); if (still) draw(0); });
+      requestAnimationFrame(draw);
+    })();
+
+    // Crossfades a stack of screens; returns a function that shows screen i.
+    const fader = (el) => (i) => [...el.children].forEach((img, n) => img.classList.toggle('on', n === i));
+
+    // Hero: the same Home in Myanmar and English, every three seconds.
+    (() => {
+      const show = fader(document.getElementById('heroScreens'));
+      const pills = document.querySelectorAll('#heroPill span');
+      let i = 0;
+      if (!still) setInterval(() => {
+        i = 1 - i; show(i);
+        pills.forEach((p, n) => p.classList.toggle('on', n === i));
+      }, 3000);
+    })();
+
+    // Readings: the list drives the phone; it moves on by itself until someone picks one.
+    (() => {
+      const box = document.getElementById('showcase');
+      const items = [...box.querySelectorAll('.reading')];
+      const show = fader(document.getElementById('stageScreens'));
+      const dwell = 5000;
+      let i = 0, timer = null;
+      box.style.setProperty('--dwell', dwell + 'ms');
+      const select = (n) => {
+        i = n; show(n);
+        items.forEach((it, k) => { it.classList.toggle('on', k === n); it.setAttribute('aria-selected', k === n); });
+        // Restart the line's animation.
+        const t = items[n].querySelector('.timer'); t.style.animation = 'none'; t.offsetWidth; t.style.animation = '';
+      };
+      const auto = () => { clearInterval(timer); timer = setInterval(() => select((i + 1) % items.length), dwell); };
+      items.forEach((it, n) => it.addEventListener('click', () => { clearInterval(timer); box.classList.add('paused'); select(n); }));
+      select(0);
+      if (still) box.classList.add('paused');
+      else new IntersectionObserver(([e]) => e.isIntersecting && !box.classList.contains('paused') ? auto() : clearInterval(timer), { threshold: .3 }).observe(box);
+    })();
 
     const bar = document.getElementById('bar');
     const onScroll = () => bar.classList.toggle('scrolled', window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-
-    const pano = document.getElementById('pano');
-    document.querySelectorAll('.pano-nav button').forEach((b) =>
-      b.addEventListener('click', () => pano.scrollBy({ left: Number(b.dataset.dir) * 560, behavior: 'smooth' })));
 
     // Sections rise in as they scroll into view (?static shows everything, for screenshots).
     const reveals = document.querySelectorAll('.reveal');
