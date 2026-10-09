@@ -373,57 +373,83 @@
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // The starfield: a seeded sky that twinkles, with a shooting star now and then.
+    // Stars are drawn from pre-rendered glow sprites (one drawImage each), at
+    // most 30 frames a second, so it stays light on phones.
     (() => {
       const canvas = document.getElementById('sky');
       const ctx = canvas.getContext('2d');
       let seed = 7;
       const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-      let stars = [], w = 0, h = 0, shooting = null, nextShot = 4000;
+      let stars = [], w = 0, h = 0, shooting = null, nextShot = 3000, last = 0;
+
+      // A soft glowing dot, and a four-point sparkle for the brightest stars.
+      const sprite = (rgb, size, sparkle) => {
+        const c = document.createElement('canvas'), d = size * 2;
+        c.width = c.height = d;
+        const g = c.getContext('2d');
+        const glow = g.createRadialGradient(size, size, 0, size, size, size);
+        glow.addColorStop(0, `rgba(${rgb},1)`); glow.addColorStop(.18, `rgba(${rgb},.85)`);
+        glow.addColorStop(.45, `rgba(${rgb},.18)`); glow.addColorStop(1, `rgba(${rgb},0)`);
+        g.fillStyle = glow; g.fillRect(0, 0, d, d);
+        if (sparkle) {
+          g.globalCompositeOperation = 'lighter';
+          for (const [dx, dy] of [[1, 0], [0, 1]]) {
+            const ray = g.createLinearGradient(size - dx * size, size - dy * size, size + dx * size, size + dy * size);
+            ray.addColorStop(0, `rgba(${rgb},0)`); ray.addColorStop(.5, `rgba(${rgb},.9)`); ray.addColorStop(1, `rgba(${rgb},0)`);
+            g.fillStyle = ray;
+            dx ? g.fillRect(0, size - .8, d, 1.6) : g.fillRect(size - .8, 0, 1.6, d);
+          }
+        }
+        return c;
+      };
+      const sprites = {
+        white: sprite('255,255,255', 16, false), lavender: sprite('201,191,247', 16, false),
+        gold: sprite('243,217,164', 16, false), sparkle: sprite('235,230,255', 28, true),
+      };
+
       const resize = () => {
         const dpr = Math.min(devicePixelRatio || 1, 2);
         w = innerWidth; h = innerHeight;
         canvas.width = w * dpr; canvas.height = h * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         seed = 7;
-        stars = Array.from({ length: Math.round(w * h / 9000) }, () => {
-          const big = rand() < .08;
-          return { x: rand() * w, y: rand() * h, r: big ? 1.4 + rand() : .6 + rand() * .8,
-                   a: .5 + rand() * .5, speed: .5 + rand() * 1.8, phase: rand() * 6.3, big,
-                   tint: rand() < .3 ? '201,191,247' : '255,255,255' };
+        stars = Array.from({ length: Math.min(260, Math.round(w * h / 6500)) }, () => {
+          const r = rand(), big = r < .07;
+          return {
+            x: rand() * w, y: rand() * h, big,
+            size: big ? 26 + rand() * 18 : 5 + rand() * 9,
+            sprite: big ? sprites.sparkle : r < .25 ? sprites.lavender : r < .3 ? sprites.gold : sprites.white,
+            peak: big ? 1 : .55 + rand() * .45, speed: .35 + rand() * 1.3, phase: rand() * 6.3,
+          };
         });
       };
       const draw = (t) => {
+        if (!still) requestAnimationFrame(draw);
+        if (!still && t - last < 33) return;
+        last = t;
         ctx.clearRect(0, 0, w, h);
         for (const s of stars) {
           // Fades from almost nothing to bright and back, each star at its own pace.
-          const k = still ? .7 : Math.pow(.5 + .5 * Math.sin(t / 1000 * s.speed + s.phase), 2);
-          const a = s.a * (.08 + .92 * k);
-          ctx.fillStyle = `rgba(${s.tint},${a})`;
-          if (s.big) { ctx.shadowColor = 'rgba(201,191,247,.9)'; ctx.shadowBlur = 10 * k; }
-          ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
-          ctx.shadowBlur = 0;
-          // The brightest stars sparkle with a small cross at their peak.
-          if (s.big && k > .6) {
-            const l = s.r * 5 * (k - .6) / .4;
-            ctx.strokeStyle = `rgba(${s.tint},${a * .7})`; ctx.lineWidth = .7;
-            ctx.beginPath(); ctx.moveTo(s.x - l, s.y); ctx.lineTo(s.x + l, s.y); ctx.moveTo(s.x, s.y - l); ctx.lineTo(s.x, s.y + l); ctx.stroke();
-          }
+          const k = still ? .7 : Math.pow(.5 + .5 * Math.sin(t / 1000 * s.speed + s.phase), 3);
+          ctx.globalAlpha = s.peak * (.06 + .94 * k);
+          const size = s.big ? s.size * (.55 + .45 * k) : s.size;
+          ctx.drawImage(s.sprite, s.x - size / 2, s.y - size / 2, size, size);
         }
+        ctx.globalAlpha = 1;
         if (!still) {
           if (!shooting && t > nextShot) {
-            shooting = { x: Math.random() * w * .7 + w * .2, y: Math.random() * h * .35, life: 0 };
-            nextShot = t + 6000 + Math.random() * 7000;
+            shooting = { x: Math.random() * w * .7 + w * .25, y: Math.random() * h * .4, life: 0 };
+            nextShot = t + 5000 + Math.random() * 6000;
           }
           if (shooting) {
-            const s = shooting, len = 120, p = s.life / 900;
-            const x = s.x - p * 420, y = s.y + p * 210;
+            const s = shooting, p = s.life / 1000, len = 160;
+            const x = s.x - p * 520, y = s.y + p * 260;
             const g = ctx.createLinearGradient(x, y, x + len, y - len / 2);
-            g.addColorStop(0, `rgba(255,255,255,${.9 * (1 - p)})`); g.addColorStop(1, 'rgba(201,191,247,0)');
-            ctx.strokeStyle = g; ctx.lineWidth = 1.4;
+            g.addColorStop(0, `rgba(255,255,255,${.95 * Math.sin(Math.PI * p)})`); g.addColorStop(1, 'rgba(201,191,247,0)');
+            ctx.strokeStyle = g; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
             ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + len, y - len / 2); ctx.stroke();
-            s.life += 16; if (s.life > 900) shooting = null;
+            s.life += 33; if (s.life > 1000) shooting = null;
           }
-          requestAnimationFrame(draw);
         }
       };
       resize();
