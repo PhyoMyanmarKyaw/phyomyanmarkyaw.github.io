@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destiny Teller: Myanmar Astrology</title>
+  <meta name="description" content="Six traditional Myanmar fortune readings from your birth date and weekday: Mahar Bote, Mood & Mind, Soul Connections and more. Free, no ads, in seven languages, for iPhone, iPad and iPhone Duo.">
+  <meta property="og:title" content="Destiny Teller: Myanmar Astrology">
+  <meta property="og:description" content="Your destiny, written in the stars: six traditional Myanmar readings, free and in seven languages.">
+  <meta property="og:image" content="https://phyomyanmarkyaw.com/destiny-teller/img/shot_01.webp">
+  <meta name="theme-color" content="#070816">
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <link rel="apple-touch-icon" href="img/icon.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* The app's own palette: midnight and lavender. */
+    :root {
+      --night: #070816;
+      --night-2: #0d0b22;
+      --night-3: #161233;
+      --text: #f1eefb;
+      --soft: #a8a4c4;
+      --faint: #6f6a8f;
+      --lavender: #c9bff7;
+      --lavender-deep: #8f7ff0;
+      --gold: #f3d9a4;
+      --line: rgba(201, 191, 247, .12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Inter, 'Noto Sans Myanmar', -apple-system, sans-serif; background: var(--night); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    a { color: inherit; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .my { font-family: 'Noto Sans Myanmar', sans-serif; }
+    .serif { font-family: 'Cormorant Garamond', serif; }
+
+    /* A fixed starfield behind everything, as in the app. */
+    #sky { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+    #sky i { position: absolute; border-radius: 50%; background: #fff; }
+
+    .bar { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, border-color .3s; border-bottom: 1px solid transparent; }
+    .bar.scrolled { background: rgba(7, 8, 22, .78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-color: var(--line); }
+    .bar .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .bar .back { font-size: .9rem; font-weight: 600; text-decoration: none; opacity: .75; display: inline-flex; gap: 8px; align-items: center; }
+    .bar .back:hover { opacity: 1; }
+    .bar .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
+    .bar .brand img { width: 30px; height: 30px; border-radius: 8px; }
+    .bar .links { display: flex; gap: 22px; font-size: .9rem; font-weight: 600; }
+    .bar .links a { text-decoration: none; opacity: .75; }
+    .bar .links a:hover { opacity: 1; }
+
+    /* Hero: the night sky with the Mahar Bote chart glowing faintly, as on the icon. */
+    .hero { position: relative; overflow: hidden; padding: 140px 0 0;
+      background: radial-gradient(70% 60% at 75% 40%, rgba(124, 92, 230, .30), transparent 70%),
+                  radial-gradient(50% 40% at 10% 0%, rgba(214, 120, 200, .12), transparent 70%); }
+    .chart { position: absolute; width: 900px; height: 900px; right: -120px; top: -40px; transform: rotate(-8deg); opacity: .07; pointer-events: none; }
+    .chart i { position: absolute; background: var(--lavender); border-radius: 20px; box-shadow: 0 0 40px var(--lavender-deep); }
+    .hero .wrap { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: end; }
+    .hero .copy { padding-bottom: 120px; }
+    .app-id { display: flex; align-items: center; gap: 16px; }
+    .app-id img { width: 72px; height: 72px; border-radius: 17px; box-shadow: 0 16px 36px rgba(0,0,0,.5), 0 0 40px rgba(143,127,240,.25); }
+    .app-id b { display: block; font-size: 1.5rem; font-weight: 700; }
+    .app-id span { font-size: .9rem; color: var(--lavender); }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: clamp(3rem, 6.4vw, 5.4rem); line-height: 1; letter-spacing: -.01em; margin-top: 34px; }
+    em.glow { font-style: italic; font-weight: 500; background: linear-gradient(120deg, var(--gold), var(--lavender) 55%, var(--lavender-deep)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero .lead { font-size: 1.15rem; color: var(--soft); max-width: 520px; margin-top: 24px; }
+    .stores { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+    .store { display: inline-flex; align-items: center; gap: 12px; min-width: 196px; padding: 11px 22px 11px 18px; border-radius: 14px; background: #fff; color: #000; text-decoration: none; transition: transform .2s, box-shadow .2s; }
+    .store:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(143,127,240,.35); }
+    .store i { font-size: 1.9rem; width: 28px; text-align: center; }
+    .store small { display: block; font-size: .7rem; font-weight: 600; opacity: .7; line-height: 1.1; }
+    .store b { display: block; font-size: 1.15rem; line-height: 1.15; font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .chip { font-size: .85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: rgba(201,191,247,.08); border: 1px solid rgba(201,191,247,.22); }
+    .phones { position: relative; height: 620px; }
+    .phone { position: absolute; width: 300px; aspect-ratio: 660 / 1435; padding: 9px; border-radius: 46px; background: linear-gradient(145deg, #3a3550, #121019 40%, #2a2640); box-shadow: 0 0 0 2px rgba(255,255,255,.08) inset, 0 50px 90px rgba(0,0,0,.6), 0 0 140px rgba(143,127,240,.35); }
+    .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 38px; display: block; }
+    .phone.hero-phone { right: 60px; bottom: -150px; transform: rotate(-7deg); }
+
+    .facts { background: rgba(13, 11, 34, .85); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .facts .wrap { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .fact { padding: 30px 10px; text-align: center; border-left: 1px solid var(--line); }
+    .fact:first-child { border-left: 0; }
+    .fact b { display: block; font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 600; line-height: 1.1; }
+    .fact span { font-size: .85rem; color: var(--soft); font-weight: 500; }
+
+    section { padding: 110px 0; position: relative; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: .78rem; font-weight: 700; letter-spacing: .24em; color: var(--lavender); }
+    .eyebrow::before { content: ''; width: 34px; height: 2px; border-radius: 2px; background: var(--lavender); opacity: .7; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.3rem, 4.2vw, 3.4rem); line-height: 1.05; font-weight: 600; margin-top: 14px; }
+    .intro { color: var(--soft); font-size: 1.08rem; max-width: 640px; margin-top: 16px; }
+    .center { text-align: center; }
+    .center .intro { margin-left: auto; margin-right: auto; }
+
+    /* The store screenshots read as one panorama. */
+    .pano { display: flex; overflow-x: auto; scroll-snap-type: x proximity; margin-top: 50px; padding: 0 max(24px, calc((100vw - 1180px) / 2 + 24px)) 26px; scrollbar-width: none; }
+    .pano::-webkit-scrollbar { display: none; }
+    .pano img { flex: 0 0 auto; width: 280px; aspect-ratio: 600 / 1304; scroll-snap-align: start; display: block; background: var(--night-3); }
+    .pano img:first-child { border-radius: 26px 0 0 26px; }
+    .pano img:last-child { border-radius: 0 26px 26px 0; }
+    .pano-nav { display: flex; justify-content: center; gap: 12px; }
+    .pano-nav button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: var(--night-3); color: var(--text); cursor: pointer; transition: transform .2s, background .2s; }
+    .pano-nav button:hover { transform: translateY(-2px); background: var(--lavender-deep); }
+
+    .readings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 56px; }
+    .reading { background: rgba(22, 18, 51, .7); border: 1px solid var(--line); border-radius: 24px; padding: 28px; transition: transform .25s, border-color .25s; }
+    .reading:hover { transform: translateY(-4px); border-color: rgba(201, 191, 247, .4); }
+    .reading .mark { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: #1e1e2e; border: 2px solid transparent; background-clip: padding-box; position: relative; }
+    .reading .mark::before { content: ''; position: absolute; inset: -2px; border-radius: 50%; background: var(--ring); z-index: -1; }
+    .reading .mark img { width: 46px; height: 46px; }
+    .reading h3 { font-size: 1.2rem; font-weight: 700; margin-top: 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+    .reading h3 .my { font-size: .85rem; font-weight: 400; color: var(--lavender); }
+    .reading p { color: var(--soft); margin-top: 8px; font-size: .97rem; }
+    .reading .note { display: inline-block; margin-top: 12px; font-size: .78rem; color: var(--gold); }
+
+    .split { display: grid; grid-template-columns: 1fr 1.1fr; gap: 70px; align-items: center; }
+    .band { background: linear-gradient(180deg, rgba(13,11,34,.9), rgba(7,8,22,.6)); border-top: 1px solid var(--line); }
+    .langs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .langs span { font-size: .95rem; padding: 8px 16px; border-radius: 999px; background: rgba(201,191,247,.08); border: 1px solid rgba(201,191,247,.22); }
+    .device { padding: 12px; border-radius: 34px; background: linear-gradient(145deg, #3a3550, #121019 40%, #2a2640); box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset, 0 50px 90px rgba(0,0,0,.55), 0 0 120px rgba(143,127,240,.2); }
+    .device img { width: 100%; display: block; border-radius: 24px; }
+    .duo-pair { display: grid; gap: 22px; }
+    .ipad { max-width: 440px; margin: 0 auto; }
+
+    .tech { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 50px; }
+    .tech-card { background: rgba(22, 18, 51, .7); border: 1px solid var(--line); border-radius: 22px; padding: 26px; }
+    .tech-card h3 { font-size: 1.05rem; font-weight: 700; display: flex; gap: 12px; align-items: center; }
+    .tech-card h3 i { color: var(--lavender); }
+    .tech-card p { color: var(--soft); margin-top: 8px; font-size: .96rem; }
+    .stack { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 30px; }
+    .stack span { font-size: .85rem; font-weight: 600; padding: 7px 14px; border-radius: 999px; background: rgba(143, 127, 240, .14); border: 1px solid rgba(143, 127, 240, .32); color: #e2dcff; }
+
+    .faq { max-width: 780px; margin: 46px auto 0; }
+    details { background: rgba(22, 18, 51, .7); border: 1px solid var(--line); border-radius: 18px; padding: 20px 24px; margin-bottom: 12px; }
+    summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; color: var(--lavender); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { color: var(--soft); margin-top: 12px; }
+
+    .siblings { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 900px; margin: 0 auto; }
+    .sibling { display: flex; align-items: center; gap: 18px; padding: 20px 24px; border-radius: 22px; text-decoration: none; background: rgba(22, 18, 51, .7); border: 1px solid var(--line); transition: transform .25s, border-color .25s; }
+    .sibling:hover { transform: translateY(-3px); border-color: rgba(201, 191, 247, .4); }
+    .sibling img { width: 56px; height: 56px; border-radius: 13px; }
+    .sibling small { color: var(--lavender); font-weight: 700; letter-spacing: .14em; font-size: .7rem; }
+    .sibling b { display: block; font-size: 1.15rem; }
+    .sibling span { color: var(--soft); font-size: .9rem; }
+    .sibling i { margin-left: auto; color: var(--lavender); }
+
+    .cta { text-align: center; }
+    .cta .stores { justify-content: center; }
+    footer { border-top: 1px solid var(--line); color: var(--soft); padding: 46px 0; font-size: .9rem; background: rgba(7,8,22,.8); }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+    footer nav { display: flex; gap: 22px; flex-wrap: wrap; }
+    footer a { text-decoration: none; color: var(--text); font-weight: 600; opacity: .85; }
+    footer a:hover { opacity: 1; }
+    footer .note { width: 100%; font-size: .8rem; color: var(--faint); }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .hero .copy { padding-bottom: 10px; text-align: center; }
+      .app-id, .stores, .chips { justify-content: center; }
+      .app-id { text-align: left; }
+      .hero .lead { margin-left: auto; margin-right: auto; }
+      .phones { height: 430px; }
+      .phone.hero-phone { right: auto; left: calc(50% - 130px); width: 260px; bottom: -190px; transform: rotate(-5deg); }
+      .facts .wrap { grid-template-columns: repeat(3, 1fr); }
+      .fact:nth-child(4) { border-left: 0; }
+      .readings { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+      .split .intro { margin-left: auto; margin-right: auto; }
+      .langs { justify-content: center; }
+      .siblings { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .bar .links { display: none; }
+      .bar .back span { display: none; }
+      section { padding: 80px 0; }
+      .facts .wrap { grid-template-columns: 1fr 1fr; }
+      .fact { border-left: 0; padding: 22px 6px; }
+      .fact:last-child { grid-column: span 2; }
+      .readings, .tech { grid-template-columns: 1fr; }
+      .pano img { width: 230px; }
+      .phone.hero-phone { left: calc(50% - 110px); width: 220px; }
+      .phones { height: 360px; }
+      .store { min-width: 0; flex: 1 1 180px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div id="sky" aria-hidden="true"></div>
+
+  <header class="bar" id="bar">
+    <div class="wrap">
+      <a class="back" href="/"><i class="fas fa-arrow-left"></i> <span>Phyo Myanmar Kyaw</span></a>
+      <a class="brand" href="#top"><img src="img/icon.png" alt="">Destiny Teller</a>
+      <nav class="links"><a href="#readings">Readings</a><a href="#engineering">Engineering</a><a href="#faq">FAQ</a></nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="chart" aria-hidden="true">
+        <i style="left:290px;top:0;width:40px;height:900px"></i>
+        <i style="left:570px;top:0;width:40px;height:900px"></i>
+        <i style="top:290px;left:0;height:40px;width:900px"></i>
+        <i style="top:570px;left:0;height:40px;width:900px"></i>
+      </div>
+      <div class="wrap">
+        <div class="copy">
+          <div class="app-id"><img src="img/icon.png" alt="Destiny Teller icon"><div><b>Destiny Teller</b><span class="my">ကောင်လေး ဗေဒင်</span></div></div>
+          <h1>Your destiny,<br>written in the <em class="glow">stars</em></h1>
+          <p class="lead">Six traditional Myanmar readings from your birth date and weekday, in the warm, personal voice of a Burmese astrologer.</p>
+          <div class="stores">
+            <a class="store" href="https://apps.apple.com/app/id760265916" target="_blank" rel="noopener"><i class="fab fa-apple"></i><span><small>Download on the</small><b>App Store</b></span></a>
+          </div>
+          <div class="chips"><span class="chip">Free · No ads</span><span class="chip">7 languages</span><span class="chip">iPhone · iPad · iPhone Duo</span></div>
+        </div>
+        <div class="phones" aria-hidden="true"><div class="phone hero-phone"><img src="img/screen_home.webp" alt=""></div></div>
+      </div>
+    </section>
+
+    <div class="facts">
+      <div class="wrap">
+        <div class="fact"><b>6</b><span>traditional readings</span></div>
+        <div class="fact"><b>7</b><span>languages</span></div>
+        <div class="fact"><b>2014</b><span>on the App Store since</span></div>
+        <div class="fact"><b>0</b><span>ads, accounts or tracking</span></div>
+        <div class="fact"><b>3</b><span>layouts: iPhone, iPad, Duo</span></div>
+      </div>
+    </div>
+
+    <section id="readings">
+      <div class="wrap center reveal">
+        <span class="eyebrow">SIX READINGS</span>
+        <h2>The fortune-telling of Myanmar,<br>in your <em class="glow">pocket</em></h2>
+        <p class="intro">Readings from your birth date, your weekday and the Myanmar calendar, written for the original Kglay Baydin and kept exactly as they were.</p>
+      </div>
+      <div class="pano reveal" id="pano">
+        <img src="img/shot_01.webp" alt="Your destiny, written in the stars" loading="lazy">
+        <img src="img/shot_02.webp" alt="Your fortune, in your language" loading="lazy">
+        <img src="img/shot_03.webp" alt="Mahar Bote: your Myanmar birth chart" loading="lazy">
+        <img src="img/shot_04.webp" alt="Mood and Mind: which state of mind rules your heart" loading="lazy">
+        <img src="img/shot_05.webp" alt="Soul Connections: when will you marry" loading="lazy">
+        <img src="img/shot_06.webp" alt="Ideal Girl: meet the girl you'll marry" loading="lazy">
+        <img src="img/shot_07.webp" alt="Numerology: your number, your nature" loading="lazy">
+        <img src="img/shot_08.webp" alt="Is He The One: is his love true" loading="lazy">
+      </div>
+      <div class="pano-nav"><button type="button" data-dir="-1" aria-label="Previous"><i class="fas fa-arrow-left"></i></button><button type="button" data-dir="1" aria-label="Next"><i class="fas fa-arrow-right"></i></button></div>
+
+      <div class="wrap">
+        <div class="readings">
+          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#22d3ee,#3b82f6)"><img src="img/mark_mood.png" alt=""></div><h3>Mood &amp; Mind <span class="my">စိတ်နေစိတ်ထား</span></h3><p>Which of the seven states of mind rules your heart: calm, compassion, joy, desire, anger and more.</p></div>
+          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#ec4899,#a855f7)"><img src="img/mark_soul.png" alt=""></div><h3>Soul Connections <span class="my">ဆုံစည်းခြင်း</span></h3><p>When will you marry? Your weekdays of birth and his age reveal the timing of your wedding.</p></div>
+          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#f97316,#facc15)"><img src="img/mark_mahar.png" alt=""></div><h3>Mahar Bote <span class="my">မဟာဘုတ်</span></h3><p>The classic Myanmar birth chart: your weekday and Myanmar year place you in one of seven houses.</p></div>
+          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#5eead4,#22c55e)"><img src="img/mark_ideal.png" alt=""></div><h3>Ideal Girl <span class="my">ဘယ်လိုမိန်းမရမလဲ</span></h3><p>What kind of woman will you marry? Her nature, her looks and your life together.</p></div>
+          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#22c55e,#5eead4)"><img src="img/mark_number.png" alt=""></div><h3>Numerology <span class="my">ဂဏန်းဗေဒင်</span></h3><p>Your birth day becomes a number from 1 to 9, with your character, talents and love life.</p></div>
+          <div class="reading reveal"><div class="mark" style="--ring:linear-gradient(135deg,#ef4444,#f97316)"><img src="img/mark_ishe.png" alt=""></div><h3>Is He The One? <span class="my">ကောင်လေးတကယ်ချစ်ရဲ့လား</span></h3><p>From her birth date and the first letters of his name, typed on a keypad of Burmese letters.</p><span class="note">✦ In Myanmar only: made for Burmese names</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="wrap split">
+        <div class="reveal">
+          <span class="eyebrow">SEVEN LANGUAGES</span>
+          <h2>Your fortune,<br>in <em class="glow">your</em> language</h2>
+          <p class="intro">Every reading was translated from the original Myanmar, in each language's own fortune-telling style. The app opens in your phone's language, and Thai readers see dates in the Buddhist era.</p>
+          <div class="langs"><span class="my">မြန်မာ</span><span>English</span><span>ไทย</span><span>日本語</span><span>Tiếng Việt</span><span>한국어</span><span>繁體中文</span></div>
+        </div>
+        <div class="reveal ipad"><div class="device"><img src="img/ipad_mahar.webp" alt="Mahar Bote reading on iPad, in English" loading="lazy"></div></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <div class="reveal duo-pair">
+          <div class="device"><img src="img/duo_home.webp" alt="Destiny Teller home on the open iPhone Duo" loading="lazy"></div>
+          <div class="device"><img src="img/duo_soul.webp" alt="A Soul Connections reading on the open iPhone Duo, in two pages" loading="lazy"></div>
+        </div>
+        <div class="reveal">
+          <span class="eyebrow">READY FOR IPHONE DUO</span>
+          <h2>Open it like<br>a <em class="glow">book</em></h2>
+          <p class="intro">On the open iPhone Duo every screen becomes two pages that meet at the fold: the picture on the left, your reading on the right. Folded, it's the familiar iPhone layout, and the buttons sit under the side status bar, the way iPhone Duo intends.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="engineering" class="band">
+      <div class="wrap center reveal">
+        <span class="eyebrow">UNDER THE HOOD</span>
+        <h2>A 2014 app, <em class="glow">rebuilt</em> faithfully</h2>
+        <p class="intro">Kglay Baydin was written in Objective-C with Zawgyi text. Destiny Teller is a native SwiftUI rewrite that keeps every reading and formula the same.</p>
+      </div>
+      <div class="wrap">
+        <div class="tech">
+          <div class="tech-card reveal"><h3><i class="fas fa-scale-balanced"></i> Tested against the original</h3><p>The Objective-C formulas are transliterated into the test suite, and Swift Testing checks every calculator against them over all inputs.</p></div>
+          <div class="tech-card reveal"><h3><i class="fas fa-moon"></i> The real Myanmar calendar</h3><p>The Myanmar year turns at the actual Thingyan New Year, not a fixed date. Dates display in the reader's calendar while every formula reads the Gregorian date, checked for each day from 1925 to 2030.</p></div>
+          <div class="tech-card reveal"><h3><i class="fas fa-font"></i> From Zawgyi to Unicode</h3><p>The legacy readings were converted from the Zawgyi encoding and proofread side by side with the originals, with line breaks kept inside Myanmar syllables.</p></div>
+          <div class="tech-card reveal"><h3><i class="fas fa-mobile-screen"></i> One app, three shapes</h3><p>A compact iPhone layout, a larger iPad layout, and a two-page spread for the open iPhone Duo, each checked so the others don't change.</p></div>
+        </div>
+        <div class="stack reveal"><span>Swift</span><span>SwiftUI</span><span>Swift Testing</span><span>String Catalogs</span><span>No third-party SDKs</span><span>Dart (migration tool)</span></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap center reveal"><span class="eyebrow">FAQ</span><h2>Questions</h2></div>
+      <div class="wrap faq">
+        <details class="reveal"><summary>Is Destiny Teller free?</summary><p>Yes. It's free, with no ads and no in-app purchases.</p></details>
+        <details class="reveal"><summary>Is this the old Kglay Baydin?</summary><p>Yes. Destiny Teller is the new version of Kglay Baydin (ကောင်လေး ဗေဒင်), rebuilt from scratch with the same readings and formulas. If you have Kglay Baydin, it updates to Destiny Teller.</p></details>
+        <details class="reveal"><summary>Do I need an account or an internet connection?</summary><p>No. There's nothing to sign up for, and every reading is worked out on your phone, offline.</p></details>
+        <details class="reveal"><summary>What data does it collect?</summary><p>None. The only thing the app stores is the language you chose. See the <a href="privacy.html">privacy policy</a>.</p></details>
+        <details class="reveal"><summary>Why is "Is He The One?" only in Myanmar?</summary><p>Its formula and the astrologer's text work from Burmese names, so it appears when the app is in Myanmar.</p></details>
+        <details class="reveal"><summary>Is it on Android?</summary><p>Destiny Teller is available for iPhone and iPad. An Android version is planned.</p></details>
+      </div>
+    </section>
+
+    <section style="padding-top: 0">
+      <div class="wrap reveal">
+        <div class="siblings">
+          <a class="sibling" href="/kanjiyama/"><img src="/kanjiyama/img/icon.png" alt="Kanjiyama icon"><div><small>ALSO BY PHYO MYANMAR KYAW</small><b>Kanjiyama</b><span>Kanji stroke order, writing and JLPT quizzes.</span></div><i class="fas fa-arrow-right"></i></a>
+          <a class="sibling" href="/kotoba-master/"><img src="/kotoba-master/img/icon.png" alt="Kotoba Master icon"><div><small>ALSO BY PHYO MYANMAR KYAW</small><b>Kotoba Master</b><span>JLPT vocabulary in chapters and flashcards.</span></div><i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" style="padding-top: 10px">
+      <div class="wrap reveal">
+        <img src="img/icon.png" alt="Destiny Teller app icon" width="96" height="96" style="border-radius: 22px; box-shadow: 0 20px 40px rgba(0,0,0,.5), 0 0 60px rgba(143,127,240,.3)">
+        <h2>Discover what the stars say</h2>
+        <div class="stores"><a class="store" href="https://apps.apple.com/app/id760265916" target="_blank" rel="noopener"><i class="fab fa-apple"></i><span><small>Download on the</small><b>App Store</b></span></a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Destiny Teller · © 2014–<span id="year">2026</span> Phyo Myanmar Kyaw</span>
+      <nav><a href="privacy.html">Privacy</a><a href="mailto:kglay.kophyo@gmail.com">Support</a><a href="/">Developer</a></nav>
+      <span class="note">Readings are for entertainment.</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // A fixed, seeded starfield, the same on every load.
+    let seed = 7;
+    const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const sky = document.getElementById('sky');
+    for (let i = 0; i < 160; i++) {
+      const s = document.createElement('i');
+      const size = rand() < 0.08 ? 2.5 + rand() * 2 : 1 + rand() * 1.4;
+      Object.assign(s.style, {
+        left: rand() * 100 + '%', top: rand() * 100 + '%', width: size + 'px', height: size + 'px',
+        opacity: 0.2 + rand() * 0.6, boxShadow: size > 2.5 ? `0 0 ${size * 4}px rgba(201,191,247,.9)` : 'none',
+      });
+      sky.append(s);
+    }
+
+    const bar = document.getElementById('bar');
+    const onScroll = () => bar.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const pano = document.getElementById('pano');
+    document.querySelectorAll('.pano-nav button').forEach((b) =>
+      b.addEventListener('click', () => pano.scrollBy({ left: Number(b.dataset.dir) * 560, behavior: 'smooth' })));
+
+    // Sections rise in as they scroll into view (?static shows everything, for screenshots).
+    const reveals = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || location.search.includes('static')) {
+      reveals.forEach((el) => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { threshold: .12 });
+      reveals.forEach((el) => io.observe(el));
+    }
+  </script>
+</body>
+</html>
