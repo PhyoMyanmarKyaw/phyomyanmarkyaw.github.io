@@ -84,9 +84,6 @@
     .screens { position: relative; width: 100%; height: 100%; }
     .screens img { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease; }
     .screens img.on { opacity: 1; }
-    .lang-pill { position: absolute; right: 70px; top: 10px; z-index: 2; display: flex; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(13,11,34,.75); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: .82rem; font-weight: 600; }
-    .lang-pill span { padding: 6px 14px; border-radius: 999px; color: var(--soft); transition: background .5s, color .5s; }
-    .lang-pill span.on { background: var(--lavender); color: var(--night); }
     .halo { position: absolute; right: 30px; bottom: 40px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(143,127,240,.35), transparent 65%); animation: breathe 6s ease-in-out infinite; pointer-events: none; }
     @keyframes breathe { 50% { transform: scale(1.12); opacity: .7; } }
 
@@ -207,7 +204,7 @@
       .phones { height: 360px; }
       .store { min-width: 0; flex: 1 1 180px; }
     }
-    @media (max-width: 960px) { .lang-pill { right: auto; left: 50%; top: -6px; transform: translateX(-50%); } .halo { right: auto; left: calc(50% - 210px); bottom: 0; } }
+    @media (max-width: 960px) { .halo { right: auto; left: calc(50% - 210px); bottom: 0; } }
     @media (prefers-reduced-motion: reduce) {
       .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; }
       .chart, .phone.hero-phone, .halo { animation: none; }
@@ -247,7 +244,6 @@
         <div class="phones" aria-hidden="true">
           <div class="halo"></div>
           <div class="phone hero-phone"><div class="screens" id="heroScreens"><img class="on" src="img/screen_home.webp" alt=""><img src="img/screen_home_en.webp" alt=""></div></div>
-          <div class="lang-pill" id="heroPill"><span class="my on">မြန်မာ</span><span>English</span></div>
         </div>
       </div>
     </section>
@@ -391,19 +387,27 @@
         seed = 7;
         stars = Array.from({ length: Math.round(w * h / 9000) }, () => {
           const big = rand() < .08;
-          return { x: rand() * w, y: rand() * h, r: big ? 1.3 + rand() : .5 + rand() * .7,
-                   a: .25 + rand() * .6, speed: .4 + rand() * 1.2, phase: rand() * 6.3, big,
+          return { x: rand() * w, y: rand() * h, r: big ? 1.4 + rand() : .6 + rand() * .8,
+                   a: .5 + rand() * .5, speed: .5 + rand() * 1.8, phase: rand() * 6.3, big,
                    tint: rand() < .3 ? '201,191,247' : '255,255,255' };
         });
       };
       const draw = (t) => {
         ctx.clearRect(0, 0, w, h);
         for (const s of stars) {
-          const a = still ? s.a : s.a * (.55 + .45 * Math.sin(t / 1000 * s.speed + s.phase));
+          // Fades from almost nothing to bright and back, each star at its own pace.
+          const k = still ? .7 : Math.pow(.5 + .5 * Math.sin(t / 1000 * s.speed + s.phase), 2);
+          const a = s.a * (.08 + .92 * k);
           ctx.fillStyle = `rgba(${s.tint},${a})`;
-          if (s.big) { ctx.shadowColor = 'rgba(201,191,247,.9)'; ctx.shadowBlur = 8; }
+          if (s.big) { ctx.shadowColor = 'rgba(201,191,247,.9)'; ctx.shadowBlur = 10 * k; }
           ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill();
           ctx.shadowBlur = 0;
+          // The brightest stars sparkle with a small cross at their peak.
+          if (s.big && k > .6) {
+            const l = s.r * 5 * (k - .6) / .4;
+            ctx.strokeStyle = `rgba(${s.tint},${a * .7})`; ctx.lineWidth = .7;
+            ctx.beginPath(); ctx.moveTo(s.x - l, s.y); ctx.lineTo(s.x + l, s.y); ctx.moveTo(s.x, s.y - l); ctx.lineTo(s.x, s.y + l); ctx.stroke();
+          }
         }
         if (!still) {
           if (!shooting && t > nextShot) {
@@ -433,11 +437,9 @@
     // Hero: the same Home in Myanmar and English, every three seconds.
     (() => {
       const show = fader(document.getElementById('heroScreens'));
-      const pills = document.querySelectorAll('#heroPill span');
       let i = 0;
       if (!still) setInterval(() => {
         i = 1 - i; show(i);
-        pills.forEach((p, n) => p.classList.toggle('on', n === i));
       }, 3000);
     })();
 
