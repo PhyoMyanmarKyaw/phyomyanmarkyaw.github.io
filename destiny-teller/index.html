@@ -413,8 +413,8 @@
         canvas.width = w * dpr; canvas.height = h * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         seed = 7;
-        stars = Array.from({ length: Math.min(380, Math.round(w * h / 4200)) }, () => {
-          const r = rand(), big = r < .1;
+        stars = Array.from({ length: Math.min(240, Math.round(w * h / 7000)) }, () => {
+          const r = rand(), big = r < .08;
           return {
             x: rand() * w, y: rand() * h, big,
             size: big ? 34 + rand() * 26 : 7 + rand() * 11,
@@ -423,7 +423,7 @@
           };
         });
         // Glowing motes drifting slowly up through the sky.
-        dust = Array.from({ length: Math.round(Math.min(70, w * h / 22000)) }, () => ({
+        dust = Array.from({ length: Math.round(Math.min(36, w * h / 42000)) }, () => ({
           x: rand() * w, y: rand() * h, size: 10 + rand() * 18, vy: 6 + rand() * 14, sway: 8 + rand() * 20,
           phase: rand() * 6.3, sprite: rand() < .7 ? sprites.lavender : sprites.gold, peak: .35 + rand() * .4,
         }));
