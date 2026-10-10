@@ -164,8 +164,18 @@
         .slide { flex: 0 0 100%; scroll-snap-align: center; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 50px; align-items: center; padding: 60px 60px 50px; border-radius: 28px; position: relative; overflow: hidden;
                  background: radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%), rgba(30, 41, 59, 0.35); border: 1px solid var(--border-color); }
         .slide .glyph-bg { position: absolute; right: -40px; bottom: -120px; font-size: 420px; line-height: 1; font-weight: 700; color: var(--accent); opacity: .06; pointer-events: none; font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
-        .slide .app-mockup { transform: rotateZ(-4deg); width: 280px; height: auto; aspect-ratio: 1320 / 2868; border-width: 10px; }
-        .slide:hover .app-mockup { transform: rotateZ(0) scale(1.03); }
+        /* The slide in view animates in: phone first, then the words, one by one. */
+        .slide .app-mockup, .slide .slide-head, .slide .app-description, .slide .app-tech, .slide .slide-actions { opacity: 0; transition: opacity .7s ease, transform .9s cubic-bezier(.2, .8, .2, 1); }
+        .slide .app-mockup { transform: translateY(40px) rotateZ(-10deg) scale(.94); }
+        .slide .slide-head, .slide .app-description, .slide .app-tech, .slide .slide-actions { transform: translateX(30px); }
+        .slide.active .app-mockup { opacity: 1; transform: rotateZ(-4deg); }
+        .slide.active .slide-head, .slide.active .app-description, .slide.active .app-tech, .slide.active .slide-actions { opacity: 1; transform: none; }
+        .slide.active .slide-head { transition-delay: .15s; } .slide.active .app-description { transition-delay: .25s; }
+        .slide.active .app-tech { transition-delay: .35s; } .slide.active .slide-actions { transition-delay: .45s; }
+        .slide.active .glyph-bg { animation: glyph 8s ease-in-out infinite alternate; }
+        @keyframes glyph { to { transform: translate(-30px, -20px) rotate(-6deg); opacity: .09; } }
+        .slide .app-mockup { width: 280px; height: auto; aspect-ratio: 1320 / 2868; border-width: 10px; }
+        .slide.active:hover .app-mockup { transform: rotateZ(0) scale(1.03); transition-delay: 0s; }
         .slide .app-mockup img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 30px; display: block; }
         .slide-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
         .slide-head img { width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
@@ -185,7 +195,16 @@
         .slider-btn:hover { border-color: var(--mid-purple); transform: translateY(-2px); }
         .dots { display: flex; gap: 8px; }
         .dots button { width: 9px; height: 9px; border-radius: 99px; border: 0; background: rgba(255,255,255,.25); cursor: pointer; transition: all .3s ease; padding: 0; }
-        .dots button[aria-selected="true"] { width: 28px; background: var(--light-purple); }
+        .dots button[aria-selected="true"] { width: 34px; background: rgba(255,255,255,.25); position: relative; overflow: hidden; }
+        /* The selected dot fills while the slide is shown, then the next comes. */
+        .dots button[aria-selected="true"]::after { content: ''; position: absolute; inset: 0; background: var(--light-purple); transform-origin: left; animation: dotfill var(--autoplay, 6s) linear forwards; }
+        .slider.paused .dots button[aria-selected="true"]::after { animation: none; transform: none; }
+        @keyframes dotfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        @media (prefers-reduced-motion: reduce) {
+            .slide .app-mockup, .slide .slide-head, .slide .app-description, .slide .app-tech, .slide .slide-actions { opacity: 1; transform: none; transition: none; }
+            .slide .app-mockup { transform: rotateZ(-4deg); }
+            .slide.active .glyph-bg { animation: none; }
+        }
         @media (max-width: 900px) {
             .slide { grid-template-columns: 1fr; text-align: center; padding: 44px 24px 36px; gap: 30px; }
             .slide .app-mockup { width: 220px; margin-bottom: 0; }
@@ -342,19 +361,6 @@
             // Featured apps, newest first. Store links: a URL, '' for "Coming soon", or null when the app isn't on that store.
             const FEATURED_APPS = [
                 {
-                    name: 'Destiny Teller',
-                    kicker: 'Myanmar astrology · iPhone, iPad, iPhone Duo',
-                    glyph: '✦',
-                    accent: '#8f7ff0',
-                    icon: 'assets/apps/destiny-teller-icon.png',
-                    screen: 'assets/apps/destiny-teller-home.webp',
-                    description: 'Kglay Baydin, on the App Store since 2014, rebuilt from scratch in SwiftUI: six traditional Myanmar fortune readings from your birth date and weekday, with the real Thingyan New Year, in seven languages. Every formula is tested against the Objective-C original, and the layout adapts to iPad and the open iPhone Duo. Free, no ads, no data collected.',
-                    tags: ['SwiftUI', 'Swift Testing', 'String Catalogs', '7 languages', 'iPad & iPhone Duo'],
-                    page: 'destiny-teller/',
-                    appStore: 'https://apps.apple.com/app/id760265916',
-                    playStore: null,
-                },
-                {
                     name: 'Kanjiyama',
                     kicker: 'JLPT kanji · iPhone, iPad, Android',
                     glyph: '山',
@@ -378,6 +384,19 @@
                     tags: ['SwiftUI', 'Clean Architecture', 'GRDB', 'Firebase Analytics', 'Google AdMob'],
                     page: 'kotoba-master/',
                     appStore: 'https://apps.apple.com/us/app/kotoba-master/id6748649009',
+                    playStore: null,
+                },
+                {
+                    name: 'Destiny Teller',
+                    kicker: 'Myanmar astrology · iPhone, iPad, iPhone Duo',
+                    glyph: '✦',
+                    accent: '#8f7ff0',
+                    icon: 'assets/apps/destiny-teller-icon.png',
+                    screen: 'assets/apps/destiny-teller-home.webp',
+                    description: 'Kglay Baydin, on the App Store since 2014, rebuilt from scratch in SwiftUI: six traditional Myanmar fortune readings from your birth date and weekday, with the real Thingyan New Year, in seven languages. Every formula is tested against the Objective-C original, and the layout adapts to iPad and the open iPhone Duo. Free, no ads, no data collected.',
+                    tags: ['SwiftUI', 'Swift Testing', 'String Catalogs', '7 languages', 'iPad & iPhone Duo'],
+                    page: 'destiny-teller/',
+                    appStore: 'https://apps.apple.com/app/id760265916',
                     playStore: null,
                 },
             ];
@@ -414,16 +433,52 @@
                 const dot = document.createElement('button');
                 dot.setAttribute('role', 'tab');
                 dot.setAttribute('aria-label', app.name);
-                dot.addEventListener('click', () => slides.scrollTo({ left: i * slides.clientWidth }));
+                dot.addEventListener('click', () => slides.scrollTo({ left: i * slides.clientWidth, behavior: 'smooth' }));
                 dots.append(dot);
             });
+            const slider = slides.parentElement;
+            const n = FEATURED_APPS.length;
             const current = () => Math.round(slides.scrollLeft / slides.clientWidth);
-            const syncDots = () => [...dots.children].forEach((d, i) => d.setAttribute('aria-selected', i === current()));
-            slides.addEventListener('scroll', syncDots, { passive: true });
-            syncDots();
+            let shown = -1;
+            const sync = () => {
+                const i = current();
+                if (i === shown) return;
+                shown = i;
+                [...dots.children].forEach((d, k) => d.setAttribute('aria-selected', k === i));
+                [...slides.children].forEach((s, k) => s.classList.toggle('active', k === i));
+            };
+            slides.addEventListener('scroll', sync, { passive: true });
+            sync();
+            // Back to the first slide without scrolling past the others.
+            const go = (i) => slides.scrollTo({ left: i * slides.clientWidth, behavior: i === 0 && shown === n - 1 ? 'instant' : 'smooth' });
+
+            // Autoplay: next slide every few seconds while the slider is on screen,
+            // paused on hover, focus or touch, and off for reduced motion.
+            const dwell = 6000;
+            slider.style.setProperty('--autoplay', dwell + 'ms');
+            const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let timer = null, visible = false, held = false;
+            const restart = () => {
+                clearTimeout(timer);
+                const playing = visible && !held && !still && !document.hidden;
+                slider.classList.toggle('paused', !playing);
+                if (!playing) return;
+                // Restart the dot's fill to match the timer.
+                const dot = dots.children[shown];
+                if (dot) { dot.removeAttribute('aria-selected'); dot.offsetWidth; dot.setAttribute('aria-selected', 'true'); }
+                timer = setTimeout(() => { go((current() + 1) % n); setTimeout(restart, 900); }, dwell);
+            };
+            new IntersectionObserver(([e]) => { visible = e.isIntersecting; restart(); }, { threshold: .4 }).observe(slider);
+            slider.addEventListener('mouseenter', () => { held = true; restart(); });
+            slider.addEventListener('mouseleave', () => { held = false; restart(); });
+            slider.addEventListener('focusin', () => { held = true; restart(); });
+            slider.addEventListener('focusout', () => { held = false; restart(); });
+            slides.addEventListener('touchstart', () => { held = true; restart(); }, { passive: true });
+            slides.addEventListener('touchend', () => setTimeout(() => { held = false; restart(); }, 4000), { passive: true });
+            document.addEventListener('visibilitychange', restart);
+
             document.querySelectorAll('.slider-btn').forEach((b) => b.addEventListener('click', () => {
-                const n = FEATURED_APPS.length;
-                slides.scrollTo({ left: ((current() + Number(b.dataset.dir) + n) % n) * slides.clientWidth });
+                go((current() + Number(b.dataset.dir) + n) % n);
             }));
             const menuBtn = document.querySelector('.mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
