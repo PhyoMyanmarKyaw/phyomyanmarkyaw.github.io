@@ -1,507 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phyo Myanmar Kyaw</title>
-    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --dark-bg: #0d1117;
-            --light-purple: #a855f7;
-            --mid-purple: #6366f1;
-            --light-text: #f0f6fc;
-            --mid-text: #c9d1d9;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --grid-line-color: rgba(255, 255, 255, 0.07);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--light-text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Phyo Myanmar Kyaw · iOS Developer</title>
+<meta name="description" content="iOS Developer specializing in SwiftUI and Clean Architecture. Based in Bangkok, Thailand.">
+<meta property="og:title" content="Phyo Myanmar Kyaw · iOS Developer">
+<meta property="og:description" content="iOS Developer specializing in SwiftUI and Clean Architecture. Based in Bangkok, Thailand.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://phyomyanmarkyaw.com/">
+<meta name="theme-color" content="#f2f3f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%230d1017%22/><text x=%2250%22 y=%2270%22 font-family=%22Arial%22 font-weight=%22700%22 font-size=%2258%22 text-anchor=%22middle%22 fill=%22white%22>P</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: the page reads like an App Store listing for a person. Identity row and
+   facts strip up top, the apps as large cards in their own colours, then the
+   evidence. The home page stays neutral so each app's colour world can carry. */
+:root {
+  --bg: #f2f3f5;
+  --surface: #ffffff;
+  --ink: #0d1017;
+  --ink-2: #414957;
+  --muted: #6a7381;
+  --line: #dfe2e7;
+  --accent: #2a46f5;
+  --ok: #0f8f54;
+  --shadow: 0 30px 60px -28px rgba(13, 16, 23, .35);
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-image: 
-                linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px), 
-                linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -2;
-            opacity: 0.5;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent, var(--dark-bg) 70%);
-            z-index: -1;
-        }
+  --display: 'Bricolage Grotesque', 'Plus Jakarta Sans', -apple-system, 'Segoe UI', sans-serif;
+  --body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        nav {
-            position: fixed; top: 0; width: 100%;
-            background: rgba(13, 17, 23, 0.7);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            z-index: 1000; padding: 15px 0;
-            transition: background 0.3s ease;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, var(--mid-purple), var(--light-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .nav-links { display: flex; list-style: none; gap: 30px; }
-        .nav-links a { color: var(--light-text); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; }
-        .nav-links a:hover { color: var(--mid-purple); }
-        .hero { padding-top: 100px; min-height: 90vh; display: flex; align-items: center; }
-        
-        .hero-content-wrapper {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 60px;
-            align-items: center;
-        }
-        .hero-text { order: 1; animation: heroFadeInUp 1s ease-out; }
-        .profile-image { order: 2; width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--mid-purple), var(--light-purple)); padding: 4px; animation: heroFadeInUp 1.2s ease-out; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .profile-image img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--dark-bg); }
-        
-        .availability-status { display: inline-flex; align-items: center; gap: 8px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 8px 16px; border-radius: 25px; font-size: 0.9rem; font-weight: 500; color: #22c55e; margin-bottom: 1.5rem; }
-        .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 0.8rem; color: #f8fafc; line-height: 1.1; }
-        .hero .subtitle { font-size: 1.4rem; color: var(--mid-purple); margin-bottom: 1rem; font-weight: 600; }
-        .hero .description { font-size: 1.1rem; color: var(--mid-text); margin-bottom: 2.5rem; max-width: 550px; line-height: 1.7; }
-        .cta-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
-        .btn { padding: 15px 30px; font-size: 1rem; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s ease; }
-        .btn-primary { background: linear-gradient(135deg, var(--mid-purple), var(--light-purple)); color: white; }
-        .btn-secondary { background: transparent; color: var(--light-text); border: 2px solid var(--mid-purple); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4); }
-        .section { padding: 80px 0; position: relative; }
-        .section-title { font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 1rem; color: #f8fafc; }
-        .section-subtitle { text-align: center; color: var(--mid-text); font-size: 1.1rem; margin-bottom: 4rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 2rem; }
-        .stat { text-align: center; padding: 25px; background: rgba(30, 41, 59, 0.3); border-radius: 16px; border: 1px solid var(--border-color); transition: all 0.3s ease; }
-        .stat-number { font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--mid-purple), var(--light-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .stat-label { color: var(--mid-text); font-size: 0.95rem; font-weight: 500; }
-        .hero-app-card { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .app-mockup { width: 300px; height: 600px; background: #111; border: 12px solid #111; border-radius: 40px; box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5), inset 0 0 1px 1px rgba(255,255,255,0.1); position: relative; justify-self: center; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); transform: rotateZ(-5deg); }
-        .hero-app-card:hover .app-mockup { transform: rotateZ(0) scale(1.05); }
-        .app-mockup-screen { width: 100%; height: 100%; background-color: #000; background-size: cover; background-position: center; border-radius: 28px; overflow: hidden; }
-        .app-info h3 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: #f8fafc; }
-        .app-info .app-description { color: var(--mid-text); margin-bottom: 1.5rem; line-height: 1.7; }
-        .app-metrics { display: flex; gap: 30px; margin-bottom: 1.5rem; }
-        .metric-value { font-size: 1.5rem; font-weight: 600; color: var(--mid-purple); }
-        .metric-label { font-size: 0.8rem; color: var(--mid-text); }
-        .app-tech { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem; }
-        .tech-tag { background: rgba(99, 102, 241, 0.1); color: #c7d2fe; padding: 6px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(99, 102, 241, 0.2); }
-        .app-store-link { display: inline-flex; align-items: center; gap: 10px; color: var(--light-text); text-decoration: none; font-weight: 600; background: var(--mid-purple); padding: 12px 24px; border-radius: 25px; transition: all 0.3s ease; }
-        .app-store-link:hover { background: var(--light-purple); transform: translateY(-2px); }
-        .other-apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .other-app-card { background: rgba(30, 41, 59, 0.3); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; display: flex; flex-direction: column; transition: all 0.3s ease; }
-        .other-app-card:hover { transform: translateY(-5px); border-color: rgba(99, 102, 241, 0.4); background: rgba(30, 41, 59, 0.5);}
-        .other-app-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .other-app-icon { width: 60px; height: 60px; border-radius: 12px; }
-        .other-app-title { font-size: 1.3rem; font-weight: 600; color: var(--light-text); }
-        .other-app-desc { color: var(--mid-text); margin-bottom: 20px; flex-grow: 1; }
-        .other-app-link { color: var(--mid-purple); text-decoration: none; font-weight: 600; align-self: flex-start; }
-        
-        /* --- NEW: Animated Arrow on Hover --- */
-        .other-app-link::after {
-            content: '→';
-            display: inline-block;
-            margin-left: 8px;
-            transition: transform 0.2s ease-out;
-        }
-        .other-app-link:hover::after {
-            transform: translateX(4px);
-        }
+  --gutter: 24px;
+  --radius: 28px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b0d11; --surface: #14171d; --ink: #f1f3f6; --ink-2: #c3c9d3; --muted: #8b94a3;
+    --line: #242932; --accent: #8fa0ff; --ok: #3ddc84;
+    --shadow: 0 30px 60px -28px rgba(0, 0, 0, .8);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b0d11; --surface: #14171d; --ink: #f1f3f6; --ink-2: #c3c9d3; --muted: #8b94a3;
+  --line: #242932; --accent: #8fa0ff; --ok: #3ddc84;
+  --shadow: 0 30px 60px -28px rgba(0, 0, 0, .8);
+  color-scheme: dark;
+}
 
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 3rem; }
-        .skill-category { background: rgba(30, 41, 59, 0.3); border-radius: 16px; padding: 25px; border: 1px solid var(--border-color); transition: all 0.3s ease; }
-        .skill-list { list-style: none; } /* Removed default list styling */
-        .skill-list li { color: var(--mid-text); padding: 8px 0; position: relative; padding-left: 25px; font-weight: 500; }
-        
-        /* --- MODIFIED: Replaced the arrow with a cleaner dash --- */
-        .skill-list li::before { 
-            content: '—'; /* Using an em-dash */
-            position: absolute; 
-            left: 0; 
-            color: var(--mid-purple);
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .contact { background: rgba(30, 41, 59, 0.3); }
-        .contact-content { text-align: center; max-width: 700px; margin: 0 auto; }
-        .contact-links { display: flex; justify-content: center; gap: 25px; margin-top: 2.5rem; flex-wrap: wrap; }
-        .contact-link { display: flex; align-items: center; gap: 12px; color: var(--light-text); text-decoration: none; font-weight: 600; transition: all 0.3s ease; padding: 15px 25px; border-radius: 30px; border: 1px solid rgba(99, 102, 241, 0.2); background: rgba(99, 102, 241, 0.1); }
-        .contact-link:hover { background: rgba(99, 102, 241, 0.2); transform: translateY(-3px); color: var(--light-purple); }
-        footer { background: var(--dark-bg); text-align: center; padding: 30px 0; color: var(--mid-text); border-top: 1px solid var(--border-color); }
-        @keyframes heroFadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .anim-slide-up { opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-        .anim-slide-up.visible { opacity: 1; transform: translateY(0); }
-        .mobile-menu-btn { display: none; background: none; border: none; color: var(--light-text); font-size: 1.5rem; cursor: pointer; }
-        .mobile-menu { display: none; position: fixed; top: 70px; left: 0; width: 100%; background: rgba(13, 17, 23, 0.98); backdrop-filter: blur(20px); padding: 20px; z-index: 999; }
-        .mobile-menu.active { display: block; }
-        .mobile-menu a { display: block; color: var(--light-text); text-decoration: none; padding: 15px 0; border-bottom: 1px solid var(--border-color); font-weight: 500; }
-        
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; -webkit-text-size-adjust: 100%; }
+body { font-family: var(--body); font-size: 17px; line-height: 1.6; background: var(--bg); color: var(--ink); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1180px; margin-inline: auto; padding-inline: var(--gutter); }
+.mono { font-family: var(--mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 
-        /* --- Featured apps slider --- */
-        .slider { position: relative; }
-        .slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; border-radius: 28px; }
-        .slides::-webkit-scrollbar { display: none; }
-        .slide { flex: 0 0 100%; scroll-snap-align: center; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 50px; align-items: center; padding: 60px 60px 50px; border-radius: 28px; position: relative; overflow: hidden;
-                 background: radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%), rgba(30, 41, 59, 0.35); border: 1px solid var(--border-color); }
-        .slide .glyph-bg { position: absolute; right: -40px; bottom: -120px; font-size: 420px; line-height: 1; font-weight: 700; color: var(--accent); opacity: .06; pointer-events: none; font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
-        /* The slide in view animates in: phone first, then the words, one by one. */
-        .slide .app-mockup, .slide .slide-head, .slide .app-description, .slide .app-tech, .slide .slide-actions { opacity: 0; transition: opacity .7s ease, transform .9s cubic-bezier(.2, .8, .2, 1); }
-        .slide .app-mockup { transform: translateY(40px) rotateZ(-10deg) scale(.94); }
-        .slide .slide-head, .slide .app-description, .slide .app-tech, .slide .slide-actions { transform: translateX(30px); }
-        .slide.active .app-mockup { opacity: 1; transform: rotateZ(-4deg); }
-        .slide.active .slide-head, .slide.active .app-description, .slide.active .app-tech, .slide.active .slide-actions { opacity: 1; transform: none; }
-        .slide.active .slide-head { transition-delay: .15s; } .slide.active .app-description { transition-delay: .25s; }
-        .slide.active .app-tech { transition-delay: .35s; } .slide.active .slide-actions { transition-delay: .45s; }
-        .slide.active .glyph-bg { animation: glyph 8s ease-in-out infinite alternate; }
-        @keyframes glyph { to { transform: translate(-30px, -20px) rotate(-6deg); opacity: .09; } }
-        .slide .app-mockup { width: 280px; height: auto; aspect-ratio: 1320 / 2868; border-width: 10px; }
-        .slide.active:hover .app-mockup { transform: rotateZ(0) scale(1.03); transition-delay: 0s; }
-        .slide .app-mockup img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 30px; display: block; }
-        .slide-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
-        .slide-head img { width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
-        .slide-head h3 { font-size: 2rem; font-weight: 800; color: #f8fafc; line-height: 1.1; }
-        .slide-kicker { font-size: .85rem; font-weight: 700; letter-spacing: .08em; color: var(--accent); text-transform: uppercase; }
-        .slide .app-description { color: var(--mid-text); margin-bottom: 1.4rem; line-height: 1.7; }
-        .slide .tech-tag { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: #f1e9e4; }
-        .slide-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-        .slide-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 25px; font-weight: 600; text-decoration: none; transition: all .25s ease; }
-        .slide-btn.primary { background: var(--accent); color: #fff; }
-        .slide-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px color-mix(in srgb, var(--accent) 45%, transparent); }
-        .slide-btn.ghost { color: var(--light-text); border: 1px solid rgba(255,255,255,.18); }
-        .slide-btn.ghost:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .slide-btn.soon { color: var(--mid-text); border: 1px dashed rgba(255,255,255,.18); cursor: default; }
-        .slider-controls { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 26px; }
-        .slider-btn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--border-color); background: rgba(30, 41, 59, .5); color: var(--light-text); cursor: pointer; transition: all .25s ease; }
-        .slider-btn:hover { border-color: var(--mid-purple); transform: translateY(-2px); }
-        .dots { display: flex; gap: 8px; }
-        .dots button { width: 9px; height: 9px; border-radius: 99px; border: 0; background: rgba(255,255,255,.25); cursor: pointer; transition: all .3s ease; padding: 0; }
-        .dots button[aria-selected="true"] { width: 34px; background: rgba(255,255,255,.25); position: relative; overflow: hidden; }
-        /* The selected dot fills while the slide is shown, then the next comes. */
-        .dots button[aria-selected="true"]::after { content: ''; position: absolute; inset: 0; background: var(--light-purple); transform-origin: left; animation: dotfill var(--autoplay, 6s) linear forwards; }
-        .slider.paused .dots button[aria-selected="true"]::after { animation: none; transform: none; }
-        @keyframes dotfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-        @media (prefers-reduced-motion: reduce) {
-            .slide .app-mockup, .slide .slide-head, .slide .app-description, .slide .app-tech, .slide .slide-actions { opacity: 1; transform: none; transition: none; }
-            .slide .app-mockup { transform: rotateZ(-4deg); }
-            .slide.active .glyph-bg { animation: none; }
-        }
-        @media (max-width: 900px) {
-            .slide { grid-template-columns: 1fr; text-align: center; padding: 44px 24px 36px; gap: 30px; }
-            .slide .app-mockup { width: 220px; margin-bottom: 0; }
-            .slide-head, .slide-actions, .slide .app-tech { justify-content: center; }
-            .slide-head { flex-direction: column; gap: 10px; }
-        }
-        @media (max-width: 900px) {
-            .hero-content-wrapper { grid-template-columns: 1fr; text-align: center; }
-            .hero-text { order: 2; }
-            .profile-image { order: 1; justify-self: center; margin-bottom: 20px; }
-            .hero-app-card { grid-template-columns: 1fr; text-align: center; }
-            .app-mockup { margin-bottom: 40px; transform: rotateZ(0); }
-            .app-metrics { justify-content: center; }
-        }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-            .hero h1 { font-size: 2.8rem; }
-            .section-title { font-size: 2.2rem; }
-            .app-info h3 { font-size: 1.8rem; }
-            .contact-links { flex-direction: column; align-items: center; }
-        }
-    </style>
+/* Nav */
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: saturate(160%) blur(18px); -webkit-backdrop-filter: saturate(160%) blur(18px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; gap: 28px; height: 64px; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.05rem; text-decoration: none; letter-spacing: -.01em; margin-right: auto; white-space: nowrap; }
+.nav-links { display: flex; gap: 26px; list-style: none; }
+.nav-links a { text-decoration: none; font-size: .92rem; font-weight: 500; color: var(--ink-2); }
+.nav-links a:hover { color: var(--ink); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 .95rem/1 var(--body); text-decoration: none; padding: 13px 22px; border-radius: 99px; border: 1px solid transparent; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease; white-space: nowrap; }
+.btn:hover { transform: translateY(-1px); }
+.btn-ink { background: var(--ink); color: var(--bg); }
+.btn-line { border-color: var(--line); background: var(--surface); color: var(--ink); }
+.btn-line:hover { border-color: var(--ink); }
+.btn-sm { padding: 9px 16px; font-size: .86rem; }
+
+/* Hero */
+.hero { padding-block: 56px 28px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 40px; align-items: center; }
+.identity { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.identity img { width: 60px; height: 60px; border-radius: 27%; object-fit: cover; object-position: 50% 78%; box-shadow: 0 0 0 1px var(--line); }
+.identity strong { display: block; font-weight: 700; font-size: 1.02rem; line-height: 1.25; }
+.status { display: inline-flex; align-items: center; gap: 7px; font-size: .86rem; font-weight: 600; color: var(--ok); }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 18%, transparent); }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.6rem, 6.3vw, 5rem); line-height: .98; letter-spacing: -.035em; text-wrap: balance; }
+.role { font-family: var(--display); font-weight: 600; font-size: clamp(1.25rem, 2.2vw, 1.6rem); letter-spacing: -.01em; color: var(--accent); margin-top: 14px; }
+.lede { margin-top: 18px; max-width: 34em; font-size: 1.1rem; color: var(--ink-2); }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 32px; }
+.elsewhere { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; font-size: .9rem; }
+.elsewhere a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+.elsewhere a:hover { color: var(--ink); border-color: var(--ink); }
+
+/* Phones */
+.phone { aspect-ratio: 660 / 1434; border-radius: 15% / 7%; background: #000; border: 5px solid #0a0a0c; box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.14); overflow: hidden; }
+.phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.stage { position: relative; height: clamp(340px, 44vw, 540px);
+  background:
+    radial-gradient(38% 38% at 22% 50%, rgba(224, 72, 47, .20), transparent 70%),
+    radial-gradient(38% 40% at 78% 50%, rgba(124, 108, 242, .24), transparent 70%); }
+.stage .phone { position: absolute; top: 50%; left: 50%; width: clamp(120px, 17vw, 208px); transform: var(--t); animation: fan .9s cubic-bezier(.2, .8, .2, 1) both; }
+.stage .p-left { --t: translate(-128%, -47%) rotate(-8deg) scale(.9); }
+.stage .p-right { --t: translate(28%, -47%) rotate(8deg) scale(.9); }
+.stage .p-mid { --t: translate(-50%, -50%); z-index: 2; }
+@keyframes fan { from { transform: translate(-50%, -48%) scale(.88); } to { transform: var(--t); } }
+
+/* Facts strip, after the App Store's row of ratings, age, chart, language */
+.facts-scroll { overflow-x: auto; scrollbar-width: none; margin-top: 44px; border-block: 1px solid var(--line); }
+.facts-scroll::-webkit-scrollbar { display: none; }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(150px, 1fr)); }
+.fact { padding: 20px 18px; text-align: center; border-left: 1px solid var(--line); }
+.fact:first-child { border-left: 0; }
+.fact b { display: block; font-family: var(--display); font-weight: 700; font-size: 2.1rem; line-height: 1.15; letter-spacing: -.02em; margin-block: 0 2px; font-variant-numeric: tabular-nums; }
+.fact span { font-size: .84rem; color: var(--ink-2); }
+.fact .ok { color: var(--ok); }
+
+/* Sections */
+section { padding-block: 84px 0; }
+.sec-head { margin-bottom: 32px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1.04; letter-spacing: -.03em; text-wrap: balance; }
+.sec-head p { color: var(--ink-2); max-width: 32em; }
+
+/* App cards: each in its own colour world, always dark */
+.apps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.app { --a: #fff; position: relative; overflow: hidden; border-radius: var(--radius); color: #f6f4f2; display: flex; flex-direction: column; isolation: isolate; }
+.app-copy { padding: 40px 40px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; }
+.app-head { display: flex; align-items: center; gap: 14px; }
+.app-head img { width: 54px; height: 54px; border-radius: 24%; box-shadow: 0 8px 22px rgba(0,0,0,.4); }
+.app-kicker { font-family: var(--mono); font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; color: var(--a); }
+.app h3 { font-family: var(--display); font-weight: 700; font-size: 1.9rem; line-height: 1.1; letter-spacing: -.025em; }
+.app-what { font-size: 1.08rem; line-height: 1.5; max-width: 24em; text-wrap: pretty; color: rgba(246, 244, 242, .82); }
+.app-links { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.app .btn-a { background: var(--a); color: #0d0d10; }
+.app .btn-ghost { border-color: rgba(255,255,255,.28); color: #f6f4f2; }
+.app .btn-ghost:hover { border-color: #fff; }
+.app .soon { font-size: .86rem; color: rgba(246, 244, 242, .7); }
+.app-art { flex: 1; display: flex; justify-content: center; align-items: flex-end; padding: 36px 32px 0; min-height: 300px; }
+
+.app-kanji { --a: #ff6a4d; grid-column: 1 / -1; background: radial-gradient(60% 90% at 100% 0%, #3a1a13, transparent 70%), #17110f; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); }
+.app-kanji .app-copy { padding-bottom: 44px; justify-content: center; }
+.app-kanji .app-art { position: relative; gap: 22px; padding-top: 48px; align-items: flex-start; }
+.app-kanji .app-art::before { content: ''; position: absolute; width: 74%; aspect-ratio: 1; border-radius: 50%; background: #e0482f; right: 6%; top: 16%; z-index: -1; }
+.app-kanji .phone { width: min(44%, 232px); margin-bottom: -90px; }
+.app-kanji .phone + .phone { margin-top: 64px; }
+
+.app-kotoba { --a: #b3a6ff; background: radial-gradient(90% 60% at 0% 100%, #3b2f8f, transparent 70%), #15173a; }
+.app-kotoba .phone { width: min(62%, 250px); margin-bottom: -46%; }
+
+.app-destiny { --a: #d9c8ff; background:
+  radial-gradient(1.5px 1.5px at 18% 62%, #fff, transparent), radial-gradient(1px 1px at 72% 20%, #fff, transparent),
+  radial-gradient(1.5px 1.5px at 88% 70%, #fff, transparent), radial-gradient(1px 1px at 40% 86%, #fff, transparent),
+  radial-gradient(1px 1px at 58% 52%, #fff, transparent), radial-gradient(80% 60% at 70% 100%, #3a1f6e, transparent 70%), #0c0a1f; }
+.app-destiny .app-art { align-items: center; padding-bottom: 36px; }
+.fold { width: 100%; aspect-ratio: 1300 / 914; border-radius: 4.5% / 6.4%; border: 5px solid #0a0a0c; overflow: hidden; box-shadow: 0 30px 60px -24px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.16); position: relative; }
+.fold img { width: 100%; height: 100%; object-fit: cover; }
+.fold::after { content: ''; position: absolute; inset-block: 0; left: 50%; width: 1px; background: rgba(255,255,255,.14); }
+
+/* More projects */
+.more { margin-top: 44px; }
+.more h3 { font-family: var(--display); font-weight: 700; font-size: 1.3rem; letter-spacing: -.02em; padding-bottom: 12px; border-bottom: 1px solid var(--ink); }
+.more-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
+.proj { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 4px 16px; align-content: start; padding-block: 20px; border-bottom: 1px solid var(--line); }
+.proj img { width: 52px; height: 52px; border-radius: 24%; grid-row: span 3; box-shadow: 0 0 0 1px var(--line); }
+.proj b { font-weight: 700; }
+.proj p { grid-column: 2; color: var(--ink-2); font-size: .93rem; line-height: 1.45; }
+.proj a { grid-column: 2; justify-self: start; margin-top: 4px; font-size: .9rem; font-weight: 600; text-decoration: none; color: var(--accent); white-space: nowrap; }
+.proj a:hover { text-decoration: underline; }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+.skill { border-top: 1px solid var(--ink); padding-top: 14px; min-width: 0; }
+.skill h3 { font-family: var(--display); font-weight: 700; font-size: 1.12rem; letter-spacing: -.01em; margin-bottom: 8px; }
+.skill ul { list-style: none; }
+.skill li { padding-block: 9px; border-bottom: 1px solid var(--line); font-size: .95rem; color: var(--ink-2); }
+
+/* Contact */
+.contact { margin-top: 96px; background: var(--ink); color: var(--bg); border-radius: var(--radius); padding: 64px 56px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 40px; align-items: end; }
+.contact h2 { font-size: clamp(2.2rem, 5vw, 4rem); }
+.contact p { margin-top: 18px; max-width: 30em; color: color-mix(in srgb, var(--bg) 72%, var(--ink)); }
+.contact-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.contact .btn-bg { background: var(--bg); color: var(--ink); }
+.contact .btn-out { border-color: color-mix(in srgb, var(--bg) 35%, transparent); color: var(--bg); }
+.contact .btn-out:hover { border-color: var(--bg); }
+footer { padding-block: 34px 44px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: .86rem; color: var(--muted); }
+
+@media (max-width: 960px) {
+  .hero-grid, .contact { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .more-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-kanji { display: flex; }
+  .app-kanji .app-art { padding-top: 36px; }
+  .app-kanji .app-art::before { width: 60%; right: 20%; top: 10%; }
+  .contact { padding: 48px 32px; }
+}
+@media (max-width: 700px) {
+  :root { --gutter: 18px; --radius: 22px; }
+  body { font-size: 16px; }
+  .nav-links { display: none; }
+  .hero { padding-block: 36px 20px; }
+  .stage { height: 330px; order: 2; }
+  .stage .phone { width: min(33vw, 150px); }
+  .apps { grid-template-columns: minmax(0, 1fr); }
+  .app-copy { padding: 28px 24px 0; }
+  .app-art { padding-inline: 20px; min-height: 0; }
+  .app-kanji .phone { margin-bottom: -60px; }
+  .more-grid { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  section { padding-top: 64px; }
+  .contact { margin-top: 72px; padding: 40px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .stage .phone { animation: none; }
+  .btn { transition: none; }
+}
+</style>
 </head>
 <body>
-    <nav id="navbar">
-        <div class="container nav-container">
-            <div class="logo">PHYO</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#apps">Apps</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-menu"><i class="fas fa-bars"></i></button>
-        </div>
-        <div class="mobile-menu" id="mobile-menu">
-            <a href="#home" onclick="toggleMobileMenu()">Home</a>
-            <a href="#about" onclick="toggleMobileMenu()">About</a>
-            <a href="#apps" onclick="toggleMobileMenu()">Apps</a>
-            <a href="#skills" onclick="toggleMobileMenu()">Skills</a>
-            <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
-        </div>
-    </nav>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content-wrapper">
-                <div class="hero-text">
-                    <div class="availability-status"><div class="status-dot"></div>Available for new opportunities</div>
-                    <h1>Phyo Myanmar Kyaw</h1>
-                    <p class="subtitle">iOS Developer</p>
-                    <p class="description">Experienced iOS Developer with 5+ years in the full application lifecycle. Specializing in SwiftUI, Clean Architecture, and delivering high-quality, user-centric applications.</p>
-                    <div class="cta-buttons">
-                        <a href="#apps" class="btn btn-primary"><i class="fas fa-mobile-alt"></i> View My Work</a>
-                        <a href="#contact" class="btn btn-secondary"><i class="fas fa-envelope"></i> Let's Talk</a>
-                    </div>
-                </div>
-                <div class="profile-image">
-                    <img src="https://raw.githubusercontent.com/PhyoMyanmarKyaw/phyomyanmarkyaw.github.io/refs/heads/main/profile.png" alt="A professional headshot of Phyo Myanmar Kyaw">
-                </div>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">Phyo Myanmar Kyaw</a>
+    <ul class="nav-links">
+      <li><a href="#apps">Apps</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-ink btn-sm" href="#contact">Let's talk</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <div class="identity">
+          <img src="profile.png" alt="Phyo Myanmar Kyaw" width="60" height="60">
+          <span class="status"><i></i>Available for new opportunities</span>
+        </div>
+        <h1>Phyo Myanmar Kyaw</h1>
+        <p class="role">iOS Developer</p>
+        <p class="lede">Experienced iOS Developer with 5+ years in the full application lifecycle. Specializing in SwiftUI, Clean Architecture, and delivering high-quality, user-centric applications.</p>
+        <div class="cta">
+          <a class="btn btn-ink" href="#apps">View my apps</a>
+          <a class="btn btn-line" href="#contact">Let's talk</a>
+        </div>
+      </div>
+      <div class="stage" aria-label="Three of my apps: Kotoba Master, Kanjiyama and Destiny Teller">
+        <div class="phone p-left"><img src="kotoba-master/img/screen_home.webp" alt="Kotoba Master home screen"></div>
+        <div class="phone p-right"><img src="destiny-teller/img/screen_home_en.webp" alt="Destiny Teller home screen"></div>
+        <div class="phone p-mid"><img src="kanjiyama/img/screen_home.webp" alt="Kanjiyama home screen"></div>
+      </div>
+    </div>
+
+    <div class="facts-scroll">
+      <div class="facts">
+        <div class="fact"><b>5+</b><span>Years experience</span></div>
+        <div class="fact"><b>15+</b><span>Apps developed</span></div>
+        <div class="fact"><b>6</b><span>Certifications</span></div>
+        <div class="fact"><b>6+</b><span>Apps live</span></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="apps">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Apps I've made</h2>
+      </div>
+
+      <div class="apps">
+        <article class="app app-kanji">
+          <div class="app-copy">
+            <div class="app-head">
+              <img src="assets/apps/kanjiyama-icon.png" alt="" width="54" height="54">
+              <div><div class="app-kicker">JLPT kanji · iPhone, iPad, Android</div><h3>Kanjiyama</h3></div>
             </div>
-        </div>
-    </section>
-
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title anim-slide-up">About Me</h2>
-            <p class="section-subtitle anim-slide-up">My focus is on turning complex challenges into elegant, high-performance mobile solutions.</p>
-            <div class="stats anim-slide-up">
-                <div class="stat"><div class="stat-number">5+</div><div class="stat-label">Years Experience</div></div>
-                <div class="stat"><div class="stat-number">15+</div><div class="stat-label">Apps Developed</div></div>
-                <div class="stat"><div class="stat-number">4</div><div class="stat-label">Certifications</div></div>
-                <div class="stat"><div class="stat-number">2+</div><div class="stat-label">Apps Live</div></div>
+            <p class="app-what">Learn JLPT kanji with stroke order, writing practice and quizzes, in English and Burmese.</p>
+            <div class="app-links">
+              <a class="btn btn-a btn-sm" href="kanjiyama/">Explore Kanjiyama →</a>
+              <span class="soon">Coming soon to the App Store and Google Play</span>
             </div>
-        </div>
-    </section>
+          </div>
+          <div class="app-art">
+            <div class="phone"><img src="kanjiyama/img/screen_home.webp" alt="Kanjiyama home screen" loading="lazy"></div>
+            <div class="phone"><img src="kanjiyama/img/screen_writing.webp" alt="Kanjiyama writing practice" loading="lazy"></div>
+          </div>
+        </article>
 
-    <section id="apps" class="section">
-        <div class="container">
-            <h2 class="section-title anim-slide-up">Featured Apps</h2>
-            <p class="section-subtitle anim-slide-up">Apps I designed, built and shipped, from the first sketch to the store.</p>
-            <!-- Slides come from FEATURED_APPS in the script at the bottom: add an app there. -->
-            <div class="slider anim-slide-up" aria-roledescription="carousel" aria-label="Featured apps">
-                <div class="slides" id="slides"></div>
-                <div class="slider-controls">
-                    <button class="slider-btn" data-dir="-1" aria-label="Previous app"><i class="fas fa-arrow-left"></i></button>
-                    <div class="dots" id="dots" role="tablist"></div>
-                    <button class="slider-btn" data-dir="1" aria-label="Next app"><i class="fas fa-arrow-right"></i></button>
-                </div>
+        <article class="app app-kotoba">
+          <div class="app-copy">
+            <div class="app-head">
+              <img src="assets/apps/kotoba-master-icon.png" alt="" width="54" height="54">
+              <div><div class="app-kicker">JLPT vocabulary · iPhone</div><h3>Kotoba Master</h3></div>
             </div>
-
-            <h2 class="section-title anim-slide-up" style="margin-top: 100px; margin-bottom: 2rem;">More Projects</h2>
-            <div class="other-apps-grid">
-                <div class="other-app-card anim-slide-up">
-                    <div class="other-app-header">
-                        <img src="https://raw.githubusercontent.com/PhyoMyanmarKyaw/phyomyanmarkyaw.github.io/refs/heads/main/assets/ZUConverterLogo.png" alt="ZUConverter App Icon" class="other-app-icon">
-                        <h4 class="other-app-title">ZU-Converter</h4>
-                    </div>
-                    <p class="other-app-desc">ZUConverter is a clean and simple tool for converting Myanmar fonts.</p>
-                    <a href="https://apps.apple.com/us/app/zuconverter/id1260655385" class="other-app-link" target="_blank">View on App Store </a>
-                </div>
-                <div class="other-app-card anim-slide-up">
-                    <div class="other-app-header">
-                        <img src="https://raw.githubusercontent.com/PhyoMyanmarKyaw/phyomyanmarkyaw.github.io/refs/heads/main/assets/quickcount-icon.png" alt="Quick Count" class="other-app-icon">
-                        <h4 class="other-app-title">Quick Count</h4>
-                    </div>
-                    <p class="other-app-desc">QuickCount is a tiny, fast, and easy-to-use counter app. Perfect for counting anything—quickly.</p>
-                    <a href="https://apps.apple.com/us/app/tally-quickcount/id6741534206" class="other-app-link" target="_blank">View on App Store </a>
-                </div>
+            <p class="app-what">A Japanese vocabulary app for JLPT students.</p>
+            <div class="app-links">
+              <a class="btn btn-a btn-sm" href="kotoba-master/">Explore Kotoba Master →</a>
+              <a class="btn btn-ghost btn-sm" href="https://apps.apple.com/us/app/kotoba-master/id6748649009" target="_blank" rel="noopener">App Store ↗</a>
             </div>
-        </div>
-    </section>
+          </div>
+          <div class="app-art">
+            <div class="phone"><img src="kotoba-master/img/screen_home.webp" alt="Kotoba Master home screen" loading="lazy"></div>
+          </div>
+        </article>
 
-    <section id="skills" class="section">
-        <div class="container">
-            <h2 class="section-title anim-slide-up">Technical Skills</h2>
-            <p class="section-subtitle anim-slide-up">The tools and technologies I use to create exceptional iOS applications.</p>
-            <div class="skills-grid">
-                <div class="skill-category anim-slide-up"><h3>iOS Development</h3><ul class="skill-list"><li>Swift & Objective-C</li><li>SwiftUI & UIKit</li><li>CoreData & Realm</li><li>Async/Await</li><li>Core Animation</li></ul></div>
-                <div class="skill-category anim-slide-up"><h3>Architecture</h3><ul class="skill-list"><li>Clean Architecture</li><li>MVVM Pattern</li><li>MVC Pattern</li><li>Coordinator Pattern</li></ul></div>
-                <div class="skill-category anim-slide-up"><h3>Tools & Services</h3><ul class="skill-list"><li>Xcode & Git</li><li>Firebase & Analytics</li><li>Intercom SDK</li><li>Stripe Integration</li><li>Fastlane & CI/CD</li></ul></div>
-                <div class="skill-category anim-slide-up"><h3>Certifications</h3><ul class="skill-list"><li>Stripe Certified Professional</li><li>Mixpanel Implementation Expert</li><li>Microsoft Azure Fundamentals</li><li>OutSystems Associate Developer</li></ul></div>
+        <article class="app app-destiny">
+          <div class="app-copy">
+            <div class="app-head">
+              <img src="assets/apps/destiny-teller-icon.png" alt="" width="54" height="54">
+              <div><div class="app-kicker">Myanmar astrology · iPhone, iPad, iPhone Duo</div><h3>Destiny Teller</h3></div>
             </div>
-        </div>
-    </section>
-
-    <section id="contact" class="section contact">
-        <div class="container contact-content">
-            <h2 class="section-title anim-slide-up">Let's Work Together</h2>
-            <p class="anim-slide-up" style="color: var(--mid-text); font-size: 1.1rem; margin-bottom: 2rem;">I'm currently seeking full-time opportunities as an iOS Developer.</br> 
-    I'm open to relocation for the right position and would love to discuss 
-    how I can contribute to your team. Feel free to reach out!</p>
-            <div class="contact-links anim-slide-up">
-                <a href="mailto:kglay.kophyo@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> Email</a>
-                <a href="https://linkedin.com/in/phyo-myanmar-kyaw/" class="contact-link" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
-                <a href="https://github.com/PhyoMyanmarKyaw" class="contact-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                <a href="https://apps.apple.com/us/developer/phyo-myanmar-kyaw/id725292762" class="contact-link" target="_blank"><i class="fab fa-app-store"></i> App Store</a>
+            <p class="app-what">Traditional Myanmar fortune readings from your birth date, in seven languages.</p>
+            <div class="app-links">
+              <a class="btn btn-a btn-sm" href="destiny-teller/">Explore Destiny Teller →</a>
+              <a class="btn btn-ghost btn-sm" href="https://apps.apple.com/app/id760265916" target="_blank" rel="noopener">App Store ↗</a>
             </div>
-        </div>
-    </section>
+          </div>
+          <div class="app-art">
+            <div class="fold"><img src="destiny-teller/img/duo_home.webp" alt="Destiny Teller on the open iPhone Duo" loading="lazy"></div>
+          </div>
+        </article>
+      </div>
 
+      <div class="more">
+        <h3>More projects</h3>
+        <div class="more-grid">
+          <div class="proj">
+            <img src="assets/apps/trading-sessions-icon.png" alt="" width="52" height="52" loading="lazy">
+            <b>Trading Sessions</b>
+            <p>Sydney, Tokyo, London and New York market session times, in your local time.</p>
+            <a href="https://apps.apple.com/us/app/trading-sessions/id6753856348" target="_blank" rel="noopener">App Store ↗</a>
+          </div>
+          <div class="proj">
+            <img src="assets/ZUConverterLogo.png" alt="" width="52" height="52" loading="lazy">
+            <b>ZU-Converter</b>
+            <p>A clean and simple tool for converting Myanmar fonts.</p>
+            <a href="https://apps.apple.com/us/app/zuconverter/id1260655385" target="_blank" rel="noopener">App Store ↗</a>
+          </div>
+          <div class="proj">
+            <img src="assets/quickcount-icon.png" alt="" width="52" height="52" loading="lazy">
+            <b>Quick Count</b>
+            <p>A tiny, fast, easy-to-use counter.</p>
+            <a href="https://apps.apple.com/us/app/tally-quickcount/id6741534206" target="_blank" rel="noopener">App Store ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Technical skills</h2>
+      </div>
+      <div class="skills">
+        <div class="skill"><h3>iOS Development</h3><ul><li>Swift &amp; Objective-C</li><li>SwiftUI &amp; UIKit</li><li>CoreData &amp; Realm</li><li>Async/Await</li><li>Core Animation</li></ul></div>
+        <div class="skill"><h3>Architecture</h3><ul><li>Clean Architecture</li><li>MVVM Pattern</li><li>MVC Pattern</li><li>Coordinator Pattern</li></ul></div>
+        <div class="skill"><h3>Tools &amp; Services</h3><ul><li>Xcode &amp; Git</li><li>Firebase &amp; Analytics</li><li>Intercom SDK</li><li>Stripe Integration</li><li>Fastlane &amp; CI/CD</li></ul></div>
+        <div class="skill"><h3>Certifications</h3><ul><li>Udacity Nanodegree: iOS Development with SwiftUI and SwiftData (2026)</li><li>Google AI Professional Certificate (2026)</li><li>Stripe Certified Professional</li><li>Mixpanel Implementation Expert</li><li>Microsoft Azure Fundamentals</li><li>OutSystems Associate Developer</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="contact" id="contact">
+      <div>
+        <h2>Let's work together.</h2>
+        <p>I'm currently seeking full-time opportunities as an iOS Developer. I'm open to relocation for the right position and would love to discuss how I can contribute to your team.</p>
+      </div>
+      <div class="contact-links">
+        <a class="btn btn-bg" href="https://linkedin.com/in/phyo-myanmar-kyaw/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-out" href="mailto:kglay.kophyo@gmail.com">Email</a>
+        <a class="btn btn-out" href="https://github.com/PhyoMyanmarKyaw" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn btn-out" href="https://apps.apple.com/us/developer/phyo-myanmar-kyaw/id725292762" target="_blank" rel="noopener">App Store ↗</a>
+      </div>
+    </div>
     <footer>
-        <div class="container">
-            <p>&copy; <span id="copyright-year"></span> Phyo Myanmar Kyaw. All rights reserved.</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">Based in Bangkok, Thailand</p>
-        </div>
+      <span>© <span id="year">2026</span> Phyo Myanmar Kyaw. All rights reserved.</span>
+      <span>Based in Bangkok, Thailand</span>
     </footer>
+  </div>
+</main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // Featured apps, newest first. Store links: a URL, '' for "Coming soon", or null when the app isn't on that store.
-            const FEATURED_APPS = [
-                {
-                    name: 'Kanjiyama',
-                    kicker: 'JLPT kanji · iPhone, iPad, Android',
-                    glyph: '山',
-                    accent: '#e0482f',
-                    icon: 'assets/apps/kanjiyama-icon.png',
-                    screen: 'assets/apps/kanjiyama-home.webp',
-                    description: 'A kanji app built to climb the JLPT from N5 to N1: animated stroke order, handwriting practice with per-stroke feedback, 110 hand-drawn memory pictures, JLPT-style quizzes and FSRS spaced repetition. Fully bilingual in English and Burmese, with iPad layouts.',
-                    tags: ['Flutter', 'Riverpod', 'Firebase', 'AdMob', 'StoreKit IAP', 'FSRS'],
-                    page: 'kanjiyama/',
-                    appStore: '',
-                    playStore: '',
-                },
-                {
-                    name: 'Kotoba Master',
-                    kicker: 'JLPT vocabulary · iPhone',
-                    glyph: '言',
-                    accent: '#7c6cf2',
-                    icon: 'assets/apps/kotoba-master-icon.png',
-                    screen: 'assets/kotoba-master-homescreen.png',
-                    description: 'A beautiful and comprehensive Japanese vocabulary learning app for JLPT students. Built entirely with modern SwiftUI, it features a clean, feature-rich interface, customizable practice sessions, and a robust data architecture designed for future expansion.',
-                    tags: ['SwiftUI', 'Clean Architecture', 'GRDB', 'Firebase Analytics', 'Google AdMob'],
-                    page: 'kotoba-master/',
-                    appStore: 'https://apps.apple.com/us/app/kotoba-master/id6748649009',
-                    playStore: null,
-                },
-                {
-                    name: 'Destiny Teller',
-                    kicker: 'Myanmar astrology · iPhone, iPad, iPhone Duo',
-                    glyph: '✦',
-                    accent: '#8f7ff0',
-                    icon: 'assets/apps/destiny-teller-icon.png',
-                    screen: 'assets/apps/destiny-teller-home.webp',
-                    description: 'Kglay Baydin, on the App Store since 2014, rebuilt from scratch in SwiftUI: six traditional Myanmar fortune readings from your birth date and weekday, with the real Thingyan New Year, in seven languages. Every formula is tested against the Objective-C original, and the layout adapts to iPad and the open iPhone Duo. Free, no ads, no data collected.',
-                    tags: ['SwiftUI', 'Swift Testing', 'String Catalogs', '7 languages', 'iPad & iPhone Duo'],
-                    page: 'destiny-teller/',
-                    appStore: 'https://apps.apple.com/app/id760265916',
-                    playStore: null,
-                },
-            ];
-
-            const slides = document.getElementById('slides');
-            const dots = document.getElementById('dots');
-            // A store link is the main button when the app has no page of its own.
-            const storeButton = (url, icon, label, primary) => url
-                ? `<a class="slide-btn ${primary ? 'primary' : 'ghost'}" href="${url}" target="_blank" rel="noopener"><i class="fab ${icon}"></i> ${label}</a>` : '';
-            const storeButtons = (app) => {
-                const soon = [app.appStore === '' && 'fa-apple', app.playStore === '' && 'fa-google-play'].filter(Boolean);
-                return storeButton(app.appStore, 'fa-apple', 'App Store', !app.page)
-                    + storeButton(app.playStore, 'fa-google-play', 'Google Play', !app.page && !app.appStore)
-                    + (soon.length ? `<span class="slide-btn soon">${soon.map((i) => `<i class="fab ${i}"></i>`).join('')} Coming soon</span>` : '');
-            };
-            FEATURED_APPS.forEach((app, i) => {
-                const slide = document.createElement('article');
-                slide.className = 'slide';
-                slide.style.setProperty('--accent', app.accent);
-                slide.setAttribute('aria-label', `${i + 1} of ${FEATURED_APPS.length}: ${app.name}`);
-                slide.innerHTML = `
-                    <div class="glyph-bg" aria-hidden="true">${app.glyph}</div>
-                    <div class="app-mockup"><img src="${app.screen}" alt="${app.name} home screen" loading="lazy"></div>
-                    <div class="app-info">
-                        <div class="slide-head"><img src="${app.icon}" alt="${app.name} icon"><div><div class="slide-kicker">${app.kicker}</div><h3>${app.name}</h3></div></div>
-                        <p class="app-description">${app.description}</p>
-                        <div class="app-tech">${app.tags.map((t) => `<span class="tech-tag">${t}</span>`).join('')}</div>
-                        <div class="slide-actions">
-                            ${app.page ? `<a class="slide-btn primary" href="${app.page}">Explore ${app.name} <i class="fas fa-arrow-right"></i></a>` : ''}
-                            ${storeButtons(app)}
-                        </div>
-                    </div>`;
-                slides.append(slide);
-                const dot = document.createElement('button');
-                dot.setAttribute('role', 'tab');
-                dot.setAttribute('aria-label', app.name);
-                dot.addEventListener('click', () => slides.scrollTo({ left: i * slides.clientWidth, behavior: 'smooth' }));
-                dots.append(dot);
-            });
-            const slider = slides.parentElement;
-            const n = FEATURED_APPS.length;
-            const current = () => Math.round(slides.scrollLeft / slides.clientWidth);
-            let shown = -1;
-            const sync = () => {
-                const i = current();
-                if (i === shown) return;
-                shown = i;
-                [...dots.children].forEach((d, k) => d.setAttribute('aria-selected', k === i));
-                [...slides.children].forEach((s, k) => s.classList.toggle('active', k === i));
-            };
-            slides.addEventListener('scroll', sync, { passive: true });
-            sync();
-            // Back to the first slide without scrolling past the others.
-            const go = (i) => slides.scrollTo({ left: i * slides.clientWidth, behavior: i === 0 && shown === n - 1 ? 'instant' : 'smooth' });
-
-            // Autoplay: next slide every few seconds while the slider is on screen,
-            // paused on hover, focus or touch, and off for reduced motion.
-            const dwell = 6000;
-            slider.style.setProperty('--autoplay', dwell + 'ms');
-            const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-            let timer = null, visible = false, held = false;
-            const restart = () => {
-                clearTimeout(timer);
-                const playing = visible && !held && !still && !document.hidden;
-                slider.classList.toggle('paused', !playing);
-                if (!playing) return;
-                // Restart the dot's fill to match the timer.
-                const dot = dots.children[shown];
-                if (dot) { dot.removeAttribute('aria-selected'); dot.offsetWidth; dot.setAttribute('aria-selected', 'true'); }
-                timer = setTimeout(() => { go((current() + 1) % n); setTimeout(restart, 900); }, dwell);
-            };
-            new IntersectionObserver(([e]) => { visible = e.isIntersecting; restart(); }, { threshold: .4 }).observe(slider);
-            slider.addEventListener('mouseenter', () => { held = true; restart(); });
-            slider.addEventListener('mouseleave', () => { held = false; restart(); });
-            slider.addEventListener('focusin', () => { held = true; restart(); });
-            slider.addEventListener('focusout', () => { held = false; restart(); });
-            slides.addEventListener('touchstart', () => { held = true; restart(); }, { passive: true });
-            slides.addEventListener('touchend', () => setTimeout(() => { held = false; restart(); }, 4000), { passive: true });
-            document.addEventListener('visibilitychange', restart);
-
-            document.querySelectorAll('.slider-btn').forEach((b) => b.addEventListener('click', () => {
-                go((current() + Number(b.dataset.dir) + n) % n);
-            }));
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            const menu = document.getElementById('mobile-menu');
-            window.toggleMobileMenu = () => {
-                const isExpanded = menu.classList.toggle('active');
-                menuBtn.setAttribute('aria-expanded', isExpanded);
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.anim-slide-up').forEach((el, index) => {
-                el.style.transitionDelay = `${index * 50}ms`;
-                observer.observe(el);
-            });
-
-            document.getElementById('copyright-year').textContent = new Date().getFullYear();
-        });
-    </script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
