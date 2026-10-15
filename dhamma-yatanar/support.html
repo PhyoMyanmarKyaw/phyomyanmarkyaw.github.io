@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ဓမ္မရတနာ · Support</title>
+  <meta name="description" content="Help and contact for the Dhamma Yatanar (ဓမ္မရတနာ) prayer app.">
+  <link rel="icon" href="img/icon.png">
+  <style>
+    :root {
+      --bg: #13201c;
+      --panel: rgba(255, 255, 255, 0.035);
+      --gold: #dcc18c;
+      --gold-strong: #e9d6ad;
+      --light-text: #f1eee5;
+      --mid-text: #d3dbd2;
+      --faint-text: #9faea2;
+      --border-color: rgba(220, 193, 140, 0.18);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Myanmar Sangam MN", "Noto Sans Myanmar", "Padauk", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--mid-text);
+      line-height: 1.85;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: -1;
+      background: radial-gradient(ellipse at 70% -10%, rgba(220, 193, 140, 0.16), transparent 55%),
+                  radial-gradient(ellipse at 0% 110%, rgba(63, 106, 93, 0.45), transparent 60%);
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 56px 20px 80px; }
+    .back { color: #9faea2; text-decoration: none; font-size: 0.9rem; }
+    .back:hover { color: var(--light-text); }
+    .app { display: flex; align-items: center; gap: 14px; margin-top: 28px; }
+    .app > div { min-width: 0; }
+    main, h1, p, li { overflow-wrap: anywhere; }
+    @media (max-width: 520px) { .app { flex-direction: column; align-items: flex-start; } }
+    .app img { width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+    h1 { font-size: clamp(1.7rem, 5.5vw, 2.3rem); line-height: 1.35; font-weight: 600; color: var(--gold-strong); }
+    .en-title { color: #9faea2; font-size: 0.95rem; }
+    .meta { color: #9faea2; font-size: 0.9rem; margin: 18px 0 30px; }
+    .summary { background: var(--panel); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px 22px; margin-bottom: 30px; }
+    .summary strong { color: var(--light-text); }
+    h2 { color: var(--light-text); font-size: 1.15rem; margin: 34px 0 8px; font-weight: 600; }
+    p, li { margin-bottom: 10px; }
+    .en { color: #a9b6ab; font-size: 0.95rem; }
+    ul { padding-left: 22px; }
+    a { color: var(--gold); }
+    footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border-color); color: #9faea2; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+<main>
+  <a class="back" href="/">← Phyo Myanmar Kyaw</a>
+  <div class="app">
+    <img src="img/icon.png" alt="">
+    <div>
+      <h1>ဓမ္မရတနာ — အကူအညီ</h1>
+      <div class="en-title">Dhamma Yatanar — Support</div>
+    </div>
+  </div>
+  <p class="meta">ဘုရားစာ ဖတ်ရှုရန် အက်ပ် · A Burmese Buddhist prayer reader for iPhone and iPad</p>
+
+  <div class="summary">
+    <p><strong>ဆက်သွယ်ရန်:</strong> <a href="mailto:phyo.developer@gmail.com">phyo.developer@gmail.com</a></p>
+    <p>ဘုရားစာ စာသား၊ အသံထွက် သို့မဟုတ် အက်ပ် အသုံးပြုပုံနှင့် ပတ်သက်၍ မေးမြန်းလိုလျှင်၊ အမှားတွေ့လျှင် ဆက်သွယ်ပေးပါ။ ဘုရားစာ အမည်နှင့် အပိုဒ်ကို ဖော်ပြပေးပါက ပြင်ဆင်ရ လွယ်ကူပါသည်။</p>
+    <p class="en">Questions about a text, its reading, or the app, or found a mistake? Please email; naming the prayer and section helps.</p>
+  </div>
+
+  <h2>မကြာခဏ မေးလေ့ရှိသော မေးခွန်းများ · FAQ</h2>
+  <p><strong>အင်တာနက် လိုပါသလား။</strong> မလိုပါ။ ဘုရားစာ အားလုံးကို အင်တာနက်မရှိဘဲ ဖတ်နိုင်ပါသည်။ <span class="en">No internet is needed to read.</span></p>
+  <p><strong>စာလုံး အကြီးအသေး ပြောင်းလို့ရပါသလား။</strong> ရပါသည်။ ဘုရားစာ ဖတ်နေစဉ် အောက်ခြေရှိ "စာဖတ်ပုံ" ကို နှိပ်ပါ။ <span class="en">Tap "စာဖတ်ပုံ" at the bottom of the reader to change text size, theme and the reading layer.</span></p>
+  <p><strong>အသံထွက် စာသားသည် အတည်ပြုပြီးသားလား။</strong> ပါဠိ အသံထွက်ကို Win Metta ၏ ပါဠိဘာသာ ရွတ်ဖတ်နည်းအတိုင်း ပြုစုထားပါသည်။ အမှားတွေ့ပါက အကြောင်းကြားပေးပါ။ <span class="en">Readings follow Win Metta's guide to reading Pāli for Burmese speakers; please report anything that looks wrong.</span></p>
+  <p><strong>ဘုရားစာများ မည်သည့်ရင်းမြစ်မှ ယူထားသနည်း။</strong> ဆဋ္ဌသင်္ဂါယနာ ပိဋကတ်မူနှင့် ပုံနှိပ် ဝတ်ရွတ်စဉ်များမှ ယူထားပြီး အက်ပ်ထဲ "ဓမ္မရတနာအကြောင်း" တွင် ရင်းမြစ်အားလုံး ဖော်ပြထားပါသည်။ <span class="en">From the Chaṭṭha Saṅgāyana Tipiṭaka and printed recitation books; every source is credited in the app's About page.</span></p>
+
+  <p><a href="privacy.html">ကိုယ်ရေးအချက်အလက် မူဝါဒ · Privacy Policy</a></p>
+
+  <footer>ဓမ္မရတနာ · Dhamma Yatanar · © 2026 Phyo Myanmar Kyaw</footer>
+</main>
+</body>
+</html>
