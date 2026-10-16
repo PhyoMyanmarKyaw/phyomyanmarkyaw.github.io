@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexReader Privacy Policy</title>
+  <meta name="description" content="How the NexReader Markdown reader handles your data.">
+  <link rel="icon" type="image/png" href="img/icon.png">
+  <style>
+    :root {
+      --dark-bg: #0b0c1c;
+      --panel: rgba(255, 255, 255, 0.03);
+      --accent: #8fa0ff;
+      --accent-deep: #5a6bff;
+      --light-text: #f0f2fc;
+      --mid-text: #c9cde0;
+      --faint-text: #8e93ad;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --grid-line-color: rgba(255, 255, 255, 0.06);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--mid-text);
+      line-height: 1.7;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -2; opacity: 0.5;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at center, transparent, var(--dark-bg) 70%);
+      z-index: -1;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 64px 20px 80px; overflow-wrap: anywhere; }
+    .back { color: var(--faint-text); text-decoration: none; font-size: 0.9rem; }
+    .back:hover { color: var(--light-text); }
+    .app { display: flex; align-items: center; gap: 16px; margin-top: 28px; }
+    .app img { width: 60px; height: 60px; border-radius: 14px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4); }
+    h1 {
+      font-size: clamp(1.9rem, 6vw, 2.5rem);
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .meta { color: var(--faint-text); font-size: 0.9rem; margin: 18px 0 36px; }
+    .summary {
+      background: var(--panel);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin-bottom: 36px;
+    }
+    .summary strong { color: var(--light-text); }
+    h2 { color: var(--light-text); font-size: 1.2rem; margin: 34px 0 10px; }
+    p, li { margin-bottom: 10px; }
+    strong { color: var(--light-text); }
+    ul { padding-left: 22px; }
+    a { color: var(--accent); }
+    footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--faint-text); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+<main>
+  <a class="back" href="./">← NexReader</a>
+  <div class="app">
+    <img src="img/icon.png" alt="">
+    <h1>NexReader Privacy Policy</h1>
+  </div>
+  <p class="meta">Effective October 16, 2026</p>
+
+  <div class="summary">
+    <p><strong>In short:</strong> NexReader has no accounts and never sees your documents. It collects anonymous
+    usage statistics and crash reports so the app can be improved, and you can switch that off.</p>
+  </div>
+
+  <p>This policy explains how NexReader ("the app"), a Markdown reader made by Phyo Myanmar Kyaw ("I", "me"),
+  handles information. It applies to the app on iPhone, iPad and Mac.</p>
+
+  <h2>Your documents stay with you</h2>
+  <p>The files you open or import are stored on your device, in the app's own folder. They are not uploaded to me
+  or to anyone else. NexReader has no account, no sign-in and no server of its own.</p>
+
+  <h2>What is collected</h2>
+  <p>NexReader uses two services from Google's Firebase:</p>
+  <ul>
+    <li><strong>Google Analytics for Firebase</strong> records anonymous usage: that the app was opened, which
+    features were used (for example, that a document was opened, or that Find was used), an approximate region
+    derived from your network address, and your device model and system version.</li>
+    <li><strong>Firebase Crashlytics</strong> records crash reports: what the app was doing when it failed,
+    together with your device model and system version.</li>
+  </ul>
+  <p>Both use an identifier created for this installation of the app. It is not your name, your Apple&nbsp;ID or
+  your advertising identifier, and it is reset if you delete and reinstall the app. Crash reports are kept for 90 days, and
+  analytics data for at most 14 months.</p>
+
+  <h2>What is never collected</h2>
+  <ul>
+    <li>The contents of your documents</li>
+    <li>Their titles, file names or folder names</li>
+    <li>What you search for</li>
+    <li>Your name, email address, contacts, photos or precise location</li>
+    <li>The advertising identifier (the app does not include it)</li>
+  </ul>
+
+  <h2>How it is used</h2>
+  <p>Only to understand how the app is used and to find and fix crashes. It is not used for advertising, is not
+  sold, and is not combined with information from other apps or websites. NexReader contains no advertising and
+  does not track you.</p>
+
+  <h2>Turning it off</h2>
+  <p>Open <strong>Reading Settings</strong> (the “Aa” button in the library), scroll to <strong>Privacy</strong>,
+  and switch off <strong>Share Usage &amp; Crash Data</strong>. Collection stops and stays off.</p>
+
+  <h2>Wi‑Fi Transfer</h2>
+  <p>On iPhone and iPad, when you choose “Receive over Wi‑Fi”, NexReader starts a small web server on your device
+  so a computer on the same network can send it files. It runs only while that screen is open, is protected by a
+  code that changes each time, is reachable only on your local network, and sends nothing to the internet.</p>
+
+  <h2>Images in documents</h2>
+  <p>If a document refers to an image by web address, NexReader downloads that image to show it. The website
+  hosting the image will see the request, as it would in a web browser.</p>
+
+  <h2>Google's role</h2>
+  <p>The analytics and crash data described above are processed by Google on my behalf. Google's own practices are
+  described in the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy
+  Policy</a> and in <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacy and
+  Security in Firebase</a>.</p>
+
+  <h2>Selling data</h2>
+  <p>I do not sell your personal information.</p>
+
+  <h2>Children</h2>
+  <p>NexReader is not directed at children under 13 and does not knowingly collect personal information from
+  them.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If this policy changes, the new version will be posted on this page with a new effective date.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: <a href="mailto:kglay.kophyo@gmail.com">kglay.kophyo@gmail.com</a></p>
+
+  <footer>NexReader · © 2026 Phyo Myanmar Kyaw</footer>
+</main>
+</body>
+</html>
